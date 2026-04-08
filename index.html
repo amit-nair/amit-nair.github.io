@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amit Nair | Student Researcher</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        html {
+            /* Enables the "lock in place" scroll behavior */
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Jost', sans-serif;
+            background-color: #ffffff; /* Flipped to White */
+            color: #1a1a1a;           /* Flipped to Dark Grey/Black */
+            overflow-x: hidden;
+            letter-spacing: 0.05em;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 40px;
+            left: 5%; 
+            right: 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center; 
+            gap: 20px; 
+        }
+
+        .profile-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #ddd; /* Lighter border for light mode */
+        }
+
+        .name-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-left h1 {
+            margin: 0;
+            font-size: 1.6em;
+            letter-spacing: 0.15em;
+            font-weight: 370;
+            color: #000;
+        }
+
+        .header-left p {
+            margin: 2px 0 0;
+            font-size: 0.9em;
+            opacity: 0.7;
+            letter-spacing: 0.2em;
+            font-weight: 430;
+            color: #444;
+        }
+
+        .header-right a {
+            color: #1a1a1a; /* Darker icons */
+            margin-left: 25px;
+            font-size: 1.3em;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .header-right a:hover { color: #888; }
+
+        /* Side Navigation */
+        .side-navigation {
+            position: fixed;
+            left: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            z-index: 999;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ccc; /* Lighter dots for inactive state */
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background-color: #000; /* Dark active dot */
+            transform: scale(1.5);
+        }
+
+        /* Main Content Sections */
+        .content-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            scroll-snap-align: start; 
+            scroll-snap-stop: always;
+            position: relative;
+        }
+
+        .section-content {
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+            transform: translateY(30px);
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .content-section.active .section-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Section Styling */
+        h2 {
+            font-size: 2.8em;
+            letter-spacing: 0.15em;
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .current-project-label {
+            font-size: 0.8em;
+            letter-spacing: 0.3em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .collaborators {
+            font-size: 0.9em;
+            opacity: 0.7;
+            margin-bottom: 30px;
+            color: #444;
+        }
+
+        .project-button {
+            display: inline-flex;
+            align-items: center;
+            background: none;
+            color: #000;
+            border: 1px solid #000; /* Dark border */
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .project-button:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .side-navigation { display: none; }
+            h2 { font-size: 2em; }
+            .profile-img { width: 50px; height: 50px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <img src="https://tomonag.org/wp-content/uploads/2024/09/amit_round.png" alt="Amit Nair" class="profile-img">
+            <div class="name-container">
+                <h1>AMIT NAIR</h1>
+                <p>Student Researcher</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <a href="https://www.linkedin.com/in/amitnair21/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="mailto:amitnair213@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+    </header>
+
+    <nav class="side-navigation">
+        <div class="nav-dot active" data-section="section-1"></div>
+        <div class="nav-dot" data-section="section-2"></div>
+        <div class="nav-dot" data-section="section-3"></div>
+        <div class="nav-dot" data-section="section-4"></div>
+        <div class="nav-dot" data-section="section-5"></div>
+        <div class="nav-dot" data-section="section-6"></div>
+    </nav>
+
+    <main>
+        <section id="section-1" class="content-section active">
+            <div class="section-content">
+                <p class="current-project-label">CURRENT PROJECT</p>
+                <h2>HOW DO ANIMALS MOVE IN GROUPS</h2>
+                <p class="collaborators">WORKING ALONGSIDE: DR. MAN SU & DR. TOMOHIRO NAGASHIMA</p>
+                <a href="" target="_blank" class="project-button">
+                    <i class="fas fa-fish" style="margin-right: 10px;"></i> FURTHER
+                </a>
+            </div>
+        </section>
+
+        <section id="section-2" class="content-section">
+            <div class="section-content">
+                <h2>About Me</h2>
+                <p>Passionate about the intersection of biology and computational modeling.</p>
+            </div>
+        </section>
+
+        <section id="section-3" class="content-section">
+            <div class="section-content">
+                <h2>Publications</h2>
+                <p>*Nair, A., *Su, M., & Nagashima, T. (2026). Investigating human-AI agency in interactive simulations for complex systems
+education: The effects of questioning and content agency on student learning. In Proceedings of the Annual Meeting for
+the International Society of the Learning Sciences (ISLS2026), Irvine, CA.</p>
+            </div>
+        </section>
+
+        <section id="section-4" class="content-section">
+            <div class="section-content">
+                <h2>Research Interests</h2>
+                <p>Swarm Intelligence • Collective Behavior • Robotics</p>
+            </div>
+        </section>
+
+        <section id="section-5" class="content-section">
+            <div class="section-content">
+                <h2>Experience</h2>
+                <p>Exploring complex systems through data-driven research.</p>
+            </div>
+        </section>
+
+        <section id="section-6" class="content-section">
+            <div class="section-content">
+                <h2>Contact</h2>
+                <p>Let's collaborate. Reach out via email or LinkedIn.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const sections = document.querySelectorAll('.content-section');
+        const dots = document.querySelectorAll('.nav-dot');
+
+        const observerOptions = {
+            threshold: 0.6
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    dots.forEach(dot => dot.classList.remove('active'));
+                    const activeDot = document.querySelector(`.nav-dot[data-section="${entry.target.id}"]`);
+                    if (activeDot) activeDot.classList.add('active');
+                    
+                    entry.target.classList.add('active');
+                } else {
+                    entry.target.classList.remove('active');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const id = dot.getAttribute('data-section');
+                document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

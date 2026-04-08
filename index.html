@@ -129,6 +129,7 @@
             scroll-snap-align: start; 
             scroll-snap-stop: always;
             position: relative;
+            box-sizing: border-box;
         }
 
         .section-content {
@@ -141,6 +142,7 @@
             background: rgba(255, 255, 255, 0.4); 
             backdrop-filter: blur(2px);
             border-radius: 20px;
+            z-index: 10;
         }
 
         .content-section.active .section-content {
@@ -188,10 +190,24 @@
             color: #fff;
         }
 
+        /* Mobile Fixes */
         @media (max-width: 768px) {
             .side-navigation { display: none; }
-            h2 { font-size: 2em; }
+            h2 { font-size: 1.8em; }
             .profile-img { width: 50px; height: 50px; }
+            header { top: 20px; }
+            .header-left h1 { font-size: 1.2em; }
+            .header-left p { font-size: 0.7em; }
+            
+            /* Center adjustment for mobile */
+            .content-section {
+                /* Push content slightly up to visually balance the fixed header space */
+                padding-top: 60px; 
+            }
+            .section-content {
+                padding: 20px;
+                width: 85%;
+            }
         }
     </style>
 </head>
@@ -276,18 +292,15 @@
 
         let width, height;
         
-        // --- ASSETS ---
         const fishImg = new Image();
-        fishImg.src = 'https://t3.ftcdn.net/jpg/00/99/69/36/360_F_99693656_dQq0ERAlfcxEcfuYh1Gn0uEgFJZTZph3.jpg';
+        fishImg.src = 'fish_agent.png';
         
         const anglerImg = new Image();
-        anglerImg.src = 'https://thumbs.dreamstime.com/b/deep-sea-anglerfish-line-art-icon-bioluminescent-lure-sharp-teeth-minimalist-showcasing-its-unique-formidable-411633405.jpg';
+        anglerImg.src = 'angler.png';
 
         const placeholderJelly = new Image();
-        placeholderJelly.src = 'https://www.shutterstock.com/image-vector/one-single-line-drawing-adorable-260nw-1494463601.jpg';
+        placeholderJelly.src = 'jelly.png';
 
-        // --- POOL LOGIC ---
-        // Using placeholder for all as requested. Replace URL strings here later.
         const animalPool = [
             { name: "Jellyfish", weight: 50, img: placeholderJelly },
             { name: "Octopus", weight: 5, img: placeholderJelly },
@@ -333,12 +346,13 @@
                 this.vy = (Math.random() - 0.5) * 2;
                 this.accX = 0;
                 this.accY = 0;
-                this.baseMaxSpeed = 1 + Math.random() * 0.8;
-                this.burstMaxSpeed = 2.5 + Math.random() * 2;
+                this.baseMaxSpeed = 1 + Math.random() * 0.4;
+                this.burstMaxSpeed = 2.5 + Math.random() * 1;
                 this.maxSpeed = this.baseMaxSpeed;
                 this.maxForce = 0.05;
                 this.isBursting = false;
                 this.burstTimer = 0;
+                this.width = 30;
             }
 
             applyBehaviors(boids) {
@@ -428,19 +442,34 @@
                 if (this.y > height + margin) this.y = -margin;
             }
 
-            draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(Math.atan2(this.vy, this.vx));
-                ctx.drawImage(fishImg, -15, -10, 30, 20);
-                ctx.restore();
-            }
+draw() {
+    if (!fishImg.complete) return;
+    const aspectRatio = fishImg.naturalHeight / fishImg.naturalWidth;
+    const h = this.width * aspectRatio;
+    
+    ctx.save();
+    ctx.translate(this.x, this.y);
+
+    // 1. Get the actual angle of movement
+    let angle = Math.atan2(this.vy, this.vx);
+    
+    // 2. Rotate the canvas to that angle
+    ctx.rotate(angle);
+
+    // 3. If moving left (angle is between 90 and 270 degrees), 
+    // the fish will be upside down. Flip it back upright.
+    if (this.vx < 0) {
+        ctx.scale(1, -1);
+    }
+
+    ctx.drawImage(fishImg, -this.width / 2, -h / 2, this.width, h);
+    ctx.restore();
+}
         }
 
         class AmbientAnimal {
             constructor() { 
                 this.reset(); 
-                // Initial setup: start them at random heights so they don't all spawn at once
                 this.y = Math.random() * height;
             }
             reset() {
@@ -450,7 +479,7 @@
                 this.y = height + 100;
                 this.speed = 0.2 + Math.random() * 0.5;
                 this.offset = Math.random() * 100;
-                this.size = 40 + Math.random() * 20; // Slight variance in size
+                this.baseSize = 40 + Math.random() * 20;
             }
             update() {
                 this.y -= this.speed;
@@ -458,16 +487,19 @@
                 if (this.y < -200) this.reset();
             }
             draw() {
+                if (!this.img.complete) return;
+                const aspectRatio = this.img.naturalHeight / this.img.naturalWidth;
+                const drawWidth = this.baseSize * 1.5;
+                const drawHeight = drawWidth * aspectRatio;
+
                 ctx.save();
-                ctx.globalAlpha = 0.25;
-                // Keep them centered on their X/Y
-                ctx.drawImage(this.img, this.x - this.size/2, this.y - this.size/2, this.size, this.size * 1.5);
+                ctx.globalAlpha = 0.8;
+                ctx.drawImage(this.img, this.x - drawWidth/2, this.y - drawHeight/2, drawWidth, drawHeight);
                 ctx.restore();
             }
         }
 
         const boids = Array.from({ length: 50 }, () => new Boid());
-        // Setting to 3 ambient animals as requested
         const ambientAnimals = Array.from({ length: 3 }, () => new AmbientAnimal());
 
         function loop() {
@@ -480,23 +512,29 @@
             angler.flipped = dx < 0; 
             angler.angle = Math.atan2(dy, dx);
 
-            ctx.save();
-            ctx.translate(angler.x, angler.y);
-            if (angler.flipped) {
-                ctx.scale(-1, 1);
-                ctx.rotate(-angler.angle + Math.PI);
-            } else {
-                ctx.rotate(angler.angle);
-            }
-            ctx.drawImage(anglerImg, -40, -30, 80, 60);
-            ctx.restore();
-
             ambientAnimals.forEach(a => { a.update(); a.draw(); });
             boids.forEach(b => {
                 b.applyBehaviors(boids);
                 b.update();
                 b.draw();
             });
+
+            if (anglerImg.complete) {
+                const anglerAspect = anglerImg.naturalHeight / anglerImg.naturalWidth;
+                const anglerW = 80;
+                const anglerH = anglerW * anglerAspect;
+
+                ctx.save();
+                ctx.translate(angler.x, angler.y);
+                if (angler.flipped) {
+                    ctx.scale(-1, 1);
+                    ctx.rotate(-angler.angle + Math.PI);
+                } else {
+                    ctx.rotate(angler.angle);
+                }
+                ctx.drawImage(anglerImg, -anglerW/2, -anglerH/2, anglerW, anglerH);
+                ctx.restore();
+            }
 
             requestAnimationFrame(loop);
         }

@@ -322,340 +322,158 @@
         </section>
     </main>
 
-    <script>        
+    <script type="module">
+    // 1. IMPORTS (Must be at the top)
+    import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
+    import { FBXLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/FBXLoader.js';
+    import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js';
 
-        // Import Three.js via CDN
-        import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
-        import { FBXLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/FBXLoader.js';
-        import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js';
+    // 2. 2D BOID BACKGROUND SETUP
+    const canvas = document.getElementById('boidCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
 
-        const canvas = document.getElementById('boidCanvas');
-        const ctx = canvas.getContext('2d');
+    const fishImg = new Image(); fishImg.src = 'fish.png';
+    const anglerImg = new Image(); anglerImg.src = 'angler.png';
+    const jellyImg = new Image(); jellyImg.src = 'jelly.png';
 
-        let width, height;
-        
-        const fishImg = new Image();
-        fishImg.src = 'fish.png';
-        
-        const anglerImg = new Image();
-        anglerImg.src = 'angler.png';
+    const animalPool = [{ name: "Jellyfish", weight: 50, img: jellyImg }];
 
-        const placeholderJelly = new Image();
-        placeholderJelly.src = 'jelly.png';
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
 
-        const animalPool = [
-            { name: "Jellyfish", weight: 50, img: placeholderJelly },
-            { name: "Octopus", weight: 5, img: placeholderJelly },
-            { name: "Shark", weight: 5, img: placeholderJelly },
-            { name: "Isopod", weight: 5, img: placeholderJelly },
-            { name: "Squid", weight: 5, img: placeholderJelly },
-            { name: "Nautilus", weight: 5, img: placeholderJelly },
-            { name: "Sea Lilly", weight: 5, img: placeholderJelly },
-            { name: "Crab", weight: 5, img: placeholderJelly },
-            { name: "Submarine", weight: 5, img: placeholderJelly },
-            { name: "Gulper Eel", weight: 5, img: placeholderJelly },
-            { name: "Seadragon", weight: 5, img: placeholderJelly }
-        ];
+    let angler = { x: -200, y: -200, targetX: -200, targetY: -200, flipped: false, angle: 0 };
+    window.addEventListener('click', (e) => {
+        angler.targetX = e.clientX;
+        angler.targetY = e.clientY;
+    });
 
-        function getRandomAnimal() {
-            let totalWeight = animalPool.reduce((sum, animal) => sum + animal.weight, 0);
-            let random = Math.random() * totalWeight;
-            for (let animal of animalPool) {
-                if (random < animal.weight) return animal;
-                random -= animal.weight;
-            }
-            return animalPool[0];
+    class Boid {
+        constructor() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.vx = (Math.random() - 0.5) * 2;
+            this.vy = (Math.random() - 0.5) * 2;
+            this.accX = 0; this.accY = 0;
+            this.baseMaxSpeed = 1 + Math.random() * 0.4;
+            this.maxSpeed = this.baseMaxSpeed;
+            this.width = 30;
         }
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        let angler = { x: -200, y: -200, targetX: -200, targetY: -200, flipped: false, angle: 0 };
-        window.addEventListener('click', (e) => {
-            angler.targetX = e.clientX;
-            angler.targetY = e.clientY;
-        });
-
-        class Boid {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 2;
-                this.vy = (Math.random() - 0.5) * 2;
-                this.accX = 0;
-                this.accY = 0;
-                this.baseMaxSpeed = 1 + Math.random() * 0.4;
-                this.burstMaxSpeed = 2.5 + Math.random() * 1;
-                this.maxSpeed = this.baseMaxSpeed;
-                this.maxForce = 0.05;
-                this.isBursting = false;
-                this.burstTimer = 0;
-                this.width = 30;
-            }
-
-            applyBehaviors(boids) {
-                if (!this.isBursting && Math.random() < 0.003) {
-                    this.isBursting = true;
-                    this.burstTimer = 30 + Math.random() * 40;
-                }
-                if (this.isBursting) {
-                    this.maxSpeed = this.burstMaxSpeed;
-                    this.maxForce = 0.2;
-                    this.burstTimer--;
-                    if (this.burstTimer <= 0) this.isBursting = false;
-                } else {
-                    this.maxSpeed += (this.baseMaxSpeed - this.maxSpeed) * 0.1;
-                    this.maxForce = 0.05;
-                }
-                let sep = this.separate(boids);
-                let ali = this.align(boids);
-                let coh = this.cohesion(boids);
-                let avoid = this.avoidAngler();
-                this.accX += sep.x * 1.5 + ali.x * 1.0 + coh.x * 1.0 + avoid.x * 4.0;
-                this.accY += sep.y * 1.5 + ali.y * 1.0 + coh.y * 1.0 + avoid.y * 4.0;
-                this.accX += Math.cos(Date.now() * 0.001 + this.x) * 0.02;
-                this.accY += Math.sin(Date.now() * 0.001 + this.y) * 0.02;
-            }
-
-            avoidAngler() {
-                let d = Math.hypot(this.x - angler.x, this.y - angler.y);
-                if (d < 180) {
-                    this.isBursting = true;
-                    this.burstTimer = 20;
-                    return { x: (this.x - angler.x) / d, y: (this.y - angler.y) / d };
-                }
-                return { x: 0, y: 0 };
-            }
-
-            separate(boids) {
-                let steerX = 0, steerY = 0, count = 0;
-                for (let other of boids) {
-                    let d = Math.hypot(this.x - other.x, this.y - other.y);
-                    if (d > 0 && d < 30) {
-                        steerX += (this.x - other.x) / d;
-                        steerY += (this.y - other.y) / d;
-                        count++;
-                    }
-                }
-                return count > 0 ? { x: steerX / count, y: steerY / count } : { x: 0, y: 0 };
-            }
-
-            align(boids) {
-                let avgX = 0, avgY = 0, count = 0;
-                for (let other of boids) {
-                    let d = Math.hypot(this.x - other.x, this.y - other.y);
-                    if (d > 0 && d < 60) {
-                        avgX += other.vx; avgY += other.vy;
-                        count++;
-                    }
-                }
-                return count > 0 ? { x: avgX / count, y: avgY / count } : { x: 0, y: 0 };
-            }
-
-            cohesion(boids) {
-                let avgX = 0, avgY = 0, count = 0;
-                for (let other of boids) {
-                    let d = Math.hypot(this.x - other.x, this.y - other.y);
-                    if (d > 0 && d < 60) {
-                        avgX += other.x; avgY += other.y;
-                        count++;
-                    }
-                }
-                return count > 0 ? { x: (avgX / count - this.x) * 0.01, y: (avgY / count - this.y) * 0.01 } : { x: 0, y: 0 };
-            }
-
-            update() {
-                this.vx += this.accX; this.vy += this.accY;
-                let mag = Math.hypot(this.vx, this.vy);
-                if (mag > this.maxSpeed) {
-                    this.vx = (this.vx / mag) * this.maxSpeed;
-                    this.vy = (this.vy / mag) * this.maxSpeed;
-                }
-                this.x += this.vx; this.y += this.vy;
-                this.accX = 0; this.accY = 0;
-                const margin = 100;
-                if (this.x < -margin) this.x = width + margin;
-                if (this.x > width + margin) this.x = -margin;
-                if (this.y < -margin) this.y = height + margin;
-                if (this.y > height + margin) this.y = -margin;
-            }
-
-            draw() {
-                if (!fishImg.complete) return;
-                const aspectRatio = fishImg.naturalHeight / fishImg.naturalWidth;
-                const h = this.width * aspectRatio;
-                
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                let angle = Math.atan2(this.vy, this.vx);
-                ctx.rotate(angle);
-                if (this.vx < 0) {
-                    ctx.scale(1, -1);
-                }
-                ctx.drawImage(fishImg, -this.width / 2, -h / 2, this.width, h);
-                ctx.restore();
+        applyBehaviors(boids) {
+            let d = Math.hypot(this.x - angler.x, this.y - angler.y);
+            if (d < 180) {
+                this.accX += (this.x - angler.x) / d * 4;
+                this.accY += (this.y - angler.y) / d * 4;
             }
         }
-
-        class AmbientAnimal {
-            constructor() { 
-                this.reset(); 
-                this.y = Math.random() * height;
-            }
-            reset() {
-                const species = getRandomAnimal();
-                this.img = species.img;
-                this.x = Math.random() * width;
-                this.y = height + 100;
-                this.speed = 0.2 + Math.random() * 0.5;
-                this.offset = Math.random() * 100;
-                this.baseSize = 40 + Math.random() * 20;
-            }
-            update() {
-                this.y -= this.speed;
-                this.x += Math.sin(this.y * 0.01 + this.offset) * 0.5;
-                if (this.y < -200) this.reset();
-            }
-            draw() {
-                if (!this.img.complete) return;
-                const aspectRatio = this.img.naturalHeight / this.img.naturalWidth;
-                const drawWidth = this.baseSize * 1;
-                const drawHeight = drawWidth * aspectRatio;
-
-                ctx.save();
-                ctx.globalAlpha = 0.4;
-                ctx.drawImage(this.img, this.x - drawWidth/2, this.y - drawHeight/2, drawWidth, drawHeight);
-                ctx.restore();
-            }
+        update() {
+            this.vx += this.accX; this.vy += this.accY;
+            this.x += this.vx; this.y += this.vy;
+            this.accX = 0; this.accY = 0;
+            if (this.x < -100) this.x = width + 100;
+            if (this.x > width + 100) this.x = -100;
+            if (this.y < -100) this.y = height + 100;
+            if (this.y > height + 100) this.y = -100;
         }
-
-        const boids = Array.from({ length: 50 }, () => new Boid());
-        const ambientAnimals = Array.from({ length: 3 }, () => new AmbientAnimal());
-
-        function loop() {
-            ctx.clearRect(0, 0, width, height);
-
-            let dx = angler.targetX - angler.x;
-            let dy = angler.targetY - angler.y;
-            angler.x += dx * 0.02;
-            angler.y += dy * 0.02;
-            angler.flipped = dx < 0; 
-            angler.angle = Math.atan2(dy, dx);
-
-            ambientAnimals.forEach(a => { a.update(); a.draw(); });
-            boids.forEach(b => {
-                b.applyBehaviors(boids);
-                b.update();
-                b.draw();
-            });
-
-            if (anglerImg.complete) {
-                const anglerAspect = anglerImg.naturalHeight / anglerImg.naturalWidth;
-                const anglerW = 80;
-                const anglerH = anglerW * anglerAspect;
-
-                ctx.save();
-                ctx.translate(angler.x, angler.y);
-                if (angler.flipped) {
-                    ctx.scale(-1, 1);
-                    ctx.rotate(-angler.angle + Math.PI);
-                } else {
-                    ctx.rotate(angler.angle);
-                }
-                ctx.drawImage(anglerImg, -anglerW/2, -anglerH/2, anglerW, anglerH);
-                ctx.restore();
-            }
-            
-            ctx.globalAlpha = 0.6;
-            requestAnimationFrame(loop);
+        draw() {
+            if (!fishImg.complete) return;
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(Math.atan2(this.vy, this.vx));
+            if (this.vx < 0) ctx.scale(1, -1);
+            ctx.drawImage(fishImg, -15, -10, 30, 20);
+            ctx.restore();
         }
-        loop();
+    }
 
-        const sections = document.querySelectorAll('.content-section');
-        const dots = document.querySelectorAll('.nav-dot');
-        const observerOptions = { threshold: 0.6 };
+    const boids = Array.from({ length: 50 }, () => new Boid());
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    dots.forEach(dot => dot.classList.remove('active'));
-                    const activeDot = document.querySelector(`.nav-dot[data-section="${entry.target.id}"]`);
-                    if (activeDot) activeDot.classList.add('active');
-                    entry.target.classList.add('active');
-                } else {
-                    entry.target.classList.remove('active');
-                }
-            });
-        }, observerOptions);
+    function loop() {
+        ctx.clearRect(0, 0, width, height);
+        ctx.globalAlpha = 1.0; // Reset alpha so it doesn't fade away
 
-        sections.forEach(section => observer.observe(section));
+        // Update Angler
+        angler.x += (angler.targetX - angler.x) * 0.02;
+        angler.y += (angler.targetY - angler.y) * 0.02;
+        angler.flipped = (angler.targetX - angler.x) < 0;
+        angler.angle = Math.atan2(angler.targetY - angler.y, angler.targetX - angler.x);
 
-        dots.forEach(dot => {
-            dot.addEventListener('click', () => {
-                const id = dot.getAttribute('data-section');
-                document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-        
-        const container = document.getElementById('titan-container');
+        boids.forEach(b => { b.applyBehaviors(boids); b.update(); b.draw(); });
+
+        if (anglerImg.complete) {
+            ctx.save();
+            ctx.translate(angler.x, angler.y);
+            if (angler.flipped) { ctx.scale(-1, 1); ctx.rotate(-angler.angle + Math.PI); }
+            else { ctx.rotate(angler.angle); }
+            ctx.drawImage(anglerImg, -40, -30, 80, 60);
+            ctx.restore();
+        }
+        requestAnimationFrame(loop);
+    }
+    loop();
+
+    // 3. 3D TITAN MODEL SETUP
+    const container = document.getElementById('titan-container');
+    if (container) {
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        
         renderer.setSize(container.clientWidth, container.clientHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
         container.appendChild(renderer.domElement);
-        
-        // Lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-        scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(5, 5, 5);
-        scene.add(directionalLight);
-        
-        // Controls (Zoom and Drag)
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+        dirLight.position.set(5, 5, 5);
+        scene.add(dirLight);
+
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
-        
-        // Load FBX Model
+
         const loader = new FBXLoader();
         loader.load('OceanGate Titan.fbx', (object) => {
-            // Initial Angle Offset
-            object.rotation.y = Math.PI / 4; 
-            object.rotation.x = 0.2;
-            
-            // Scale adjustment (FBX models are often huge or tiny)
-            object.scale.setScalar(0.01); 
-            
+            object.rotation.y = Math.PI / 4;
+            object.scale.setScalar(0.01); // Adjust if model is invisible/too big
             scene.add(object);
             
-            // Center camera on object
             const box = new THREE.Box3().setFromObject(object);
             const center = box.getCenter(new THREE.Vector3());
             camera.position.set(center.x, center.y, center.z + 5);
             controls.target.copy(center);
-        }, 
-        (xhr) => { console.log((xhr.loaded / xhr.total * 100) + '% loaded'); },
-        (error) => { console.error('An error happened', error); });
-        
-        function animateModel() {
-            requestAnimationFrame(animateModel);
+        });
+
+        function animate3D() {
+            requestAnimationFrame(animate3D);
             controls.update();
             renderer.render(scene, camera);
         }
-        
-        // Handle resizing of the 3D window
-        window.addEventListener('resize', () => {
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
+        animate3D();
+    }
+
+    // 4. NAVIGATION LOGIC
+    const dots = document.querySelectorAll('.nav-dot');
+    const sections = document.querySelectorAll('.content-section');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                dots.forEach(dot => dot.classList.remove('active'));
+                const activeDot = document.querySelector(`.nav-dot[data-section="${entry.target.id}"]`);
+                if (activeDot) activeDot.classList.add('active');
+                entry.target.classList.add('active');
+            }
         });
-        
-        animateModel();
-    </script>
+    }, { threshold: 0.6 });
+
+    sections.forEach(s => observer.observe(s));
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            document.getElementById(dot.dataset.section).scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+</script>
 </body>
 </html>

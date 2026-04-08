@@ -275,6 +275,10 @@
         <section id="section-4" class="content-section">
             <div class="section-content">
                 <h2>3D Design</h2>
+                
+                <div id="titan-container" style="width: 100%; height: 300px; margin-bottom: 20px; cursor: grab; background: rgba(0,0,0,0.02); border-radius: 10px; overflow: hidden;">
+                    </div>
+        
                 <p class="collaborators">Exploring complex systems through data-driven research.</p>
             </div>
         </section>
@@ -590,6 +594,67 @@
                 document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
             });
         });
+
+        // Import Three.js via CDN
+        import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
+        import { FBXLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/FBXLoader.js';
+        import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js';
+        
+        const container = document.getElementById('titan-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+        
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+        
+        // Controls (Zoom and Drag)
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        
+        // Load FBX Model
+        const loader = new FBXLoader();
+        loader.load('OceanGate Titan.fbx', (object) => {
+            // Initial Angle Offset
+            object.rotation.y = Math.PI / 4; 
+            object.rotation.x = 0.2;
+            
+            // Scale adjustment (FBX models are often huge or tiny)
+            object.scale.setScalar(0.01); 
+            
+            scene.add(object);
+            
+            // Center camera on object
+            const box = new THREE.Box3().setFromObject(object);
+            const center = box.getCenter(new THREE.Vector3());
+            camera.position.set(center.x, center.y, center.z + 5);
+            controls.target.copy(center);
+        }, 
+        (xhr) => { console.log((xhr.loaded / xhr.total * 100) + '% loaded'); },
+        (error) => { console.error('An error happened', error); });
+        
+        function animateModel() {
+            requestAnimationFrame(animateModel);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        
+        // Handle resizing of the 3D window
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+        
+        animateModel();
     </script>
 </body>
 </html>

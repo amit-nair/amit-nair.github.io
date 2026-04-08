@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@100..900&display=swap" rel="stylesheet">
     <style>
         html {
-            /* Enables the "lock in place" scroll behavior */
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
         }
@@ -18,10 +17,21 @@
         body {
             margin: 0;
             font-family: 'Jost', sans-serif;
-            background-color: #ffffff; /* Flipped to White */
-            color: #1a1a1a;           /* Flipped to Dark Grey/Black */
+            background-color: #ffffff;
+            color: #1a1a1a;
             overflow-x: hidden;
             letter-spacing: 0.05em;
+        }
+
+        /* Background Canvas */
+        #boidCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; 
+            pointer-events: none; 
         }
 
         /* Header Styles */
@@ -35,6 +45,7 @@
             align-items: center;
             z-index: 1000;
             box-sizing: border-box;
+            pointer-events: auto;
         }
 
         .header-left {
@@ -48,7 +59,7 @@
             height: 60px;
             border-radius: 50%;
             object-fit: cover;
-            border: 1px solid #ddd; /* Lighter border for light mode */
+            border: 1px solid #ddd;
         }
 
         .name-container {
@@ -74,7 +85,7 @@
         }
 
         .header-right a {
-            color: #1a1a1a; /* Darker icons */
+            color: #1a1a1a;
             margin-left: 25px;
             font-size: 1.3em;
             text-decoration: none;
@@ -98,14 +109,14 @@
         .nav-dot {
             width: 8px;
             height: 8px;
-            background-color: #ccc; /* Lighter dots for inactive state */
+            background-color: #ccc;
             border-radius: 50%;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .nav-dot.active {
-            background-color: #000; /* Dark active dot */
+            background-color: #000;
             transform: scale(1.5);
         }
 
@@ -126,7 +137,10 @@
             transition: opacity 0.4s ease-out, transform 0.4s ease-out;
             transform: translateY(30px);
             max-width: 800px;
-            padding: 0 20px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.4); 
+            backdrop-filter: blur(2px);
+            border-radius: 20px;
         }
 
         .content-section.active .section-content {
@@ -134,7 +148,6 @@
             transform: translateY(0);
         }
 
-        /* Section Styling */
         h2 {
             font-size: 2.8em;
             letter-spacing: 0.15em;
@@ -163,7 +176,7 @@
             align-items: center;
             background: none;
             color: #000;
-            border: 1px solid #000; /* Dark border */
+            border: 1px solid #000;
             padding: 12px 25px;
             text-decoration: none;
             border-radius: 50px;
@@ -175,7 +188,6 @@
             color: #fff;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .side-navigation { display: none; }
             h2 { font-size: 2em; }
@@ -184,6 +196,8 @@
     </style>
 </head>
 <body>
+
+    <canvas id="boidCanvas"></canvas>
 
     <header>
         <div class="header-left">
@@ -214,7 +228,7 @@
                 <p class="current-project-label">CURRENT PROJECT</p>
                 <h2>HOW DO ANIMALS MOVE IN GROUPS</h2>
                 <p class="collaborators">WORKING ALONGSIDE: DR. MAN SU & DR. TOMOHIRO NAGASHIMA</p>
-                <a href="" target="_blank" class="project-button">
+                <a href="#" target="_blank" class="project-button">
                     <i class="fas fa-fish" style="margin-right: 10px;"></i> FURTHER
                 </a>
             </div>
@@ -230,9 +244,7 @@
         <section id="section-3" class="content-section">
             <div class="section-content">
                 <h2>Publications</h2>
-                <p>*Nair, A., *Su, M., & Nagashima, T. (2026). Investigating human-AI agency in interactive simulations for complex systems
-education: The effects of questioning and content agency on student learning. In Proceedings of the Annual Meeting for
-the International Society of the Learning Sciences (ISLS2026), Irvine, CA.</p>
+                <p>Investigating human-AI agency in interactive simulations for complex systems education.</p>
             </div>
         </section>
 
@@ -259,12 +271,240 @@ the International Society of the Learning Sciences (ISLS2026), Irvine, CA.</p>
     </main>
 
     <script>
+        const canvas = document.getElementById('boidCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        
+        // --- ASSETS ---
+        const fishImg = new Image();
+        fishImg.src = 'https://t3.ftcdn.net/jpg/00/99/69/36/360_F_99693656_dQq0ERAlfcxEcfuYh1Gn0uEgFJZTZph3.jpg';
+        
+        const anglerImg = new Image();
+        anglerImg.src = 'https://thumbs.dreamstime.com/b/deep-sea-anglerfish-line-art-icon-bioluminescent-lure-sharp-teeth-minimalist-showcasing-its-unique-formidable-411633405.jpg';
+
+        const placeholderJelly = new Image();
+        placeholderJelly.src = 'https://www.shutterstock.com/image-vector/one-single-line-drawing-adorable-260nw-1494463601.jpg';
+
+        // --- POOL LOGIC ---
+        // Using placeholder for all as requested. Replace URL strings here later.
+        const animalPool = [
+            { name: "Jellyfish", weight: 50, img: placeholderJelly },
+            { name: "Octopus", weight: 5, img: placeholderJelly },
+            { name: "Shark", weight: 5, img: placeholderJelly },
+            { name: "Isopod", weight: 5, img: placeholderJelly },
+            { name: "Squid", weight: 5, img: placeholderJelly },
+            { name: "Nautilus", weight: 5, img: placeholderJelly },
+            { name: "Sea Lilly", weight: 5, img: placeholderJelly },
+            { name: "Crab", weight: 5, img: placeholderJelly },
+            { name: "Submarine", weight: 5, img: placeholderJelly },
+            { name: "Gulper Eel", weight: 5, img: placeholderJelly },
+            { name: "Seadragon", weight: 5, img: placeholderJelly }
+        ];
+
+        function getRandomAnimal() {
+            let totalWeight = animalPool.reduce((sum, animal) => sum + animal.weight, 0);
+            let random = Math.random() * totalWeight;
+            for (let animal of animalPool) {
+                if (random < animal.weight) return animal;
+                random -= animal.weight;
+            }
+            return animalPool[0];
+        }
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        let angler = { x: -200, y: -200, targetX: -200, targetY: -200, flipped: false, angle: 0 };
+        window.addEventListener('click', (e) => {
+            angler.targetX = e.clientX;
+            angler.targetY = e.clientY;
+        });
+
+        class Boid {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.accX = 0;
+                this.accY = 0;
+                this.baseMaxSpeed = 1 + Math.random() * 0.8;
+                this.burstMaxSpeed = 2.5 + Math.random() * 2;
+                this.maxSpeed = this.baseMaxSpeed;
+                this.maxForce = 0.05;
+                this.isBursting = false;
+                this.burstTimer = 0;
+            }
+
+            applyBehaviors(boids) {
+                if (!this.isBursting && Math.random() < 0.003) {
+                    this.isBursting = true;
+                    this.burstTimer = 30 + Math.random() * 40;
+                }
+                if (this.isBursting) {
+                    this.maxSpeed = this.burstMaxSpeed;
+                    this.maxForce = 0.2;
+                    this.burstTimer--;
+                    if (this.burstTimer <= 0) this.isBursting = false;
+                } else {
+                    this.maxSpeed += (this.baseMaxSpeed - this.maxSpeed) * 0.1;
+                    this.maxForce = 0.05;
+                }
+                let sep = this.separate(boids);
+                let ali = this.align(boids);
+                let coh = this.cohesion(boids);
+                let avoid = this.avoidAngler();
+                this.accX += sep.x * 1.5 + ali.x * 1.0 + coh.x * 1.0 + avoid.x * 4.0;
+                this.accY += sep.y * 1.5 + ali.y * 1.0 + coh.y * 1.0 + avoid.y * 4.0;
+                this.accX += Math.cos(Date.now() * 0.001 + this.x) * 0.02;
+                this.accY += Math.sin(Date.now() * 0.001 + this.y) * 0.02;
+            }
+
+            avoidAngler() {
+                let d = Math.hypot(this.x - angler.x, this.y - angler.y);
+                if (d < 180) {
+                    this.isBursting = true;
+                    this.burstTimer = 20;
+                    return { x: (this.x - angler.x) / d, y: (this.y - angler.y) / d };
+                }
+                return { x: 0, y: 0 };
+            }
+
+            separate(boids) {
+                let steerX = 0, steerY = 0, count = 0;
+                for (let other of boids) {
+                    let d = Math.hypot(this.x - other.x, this.y - other.y);
+                    if (d > 0 && d < 30) {
+                        steerX += (this.x - other.x) / d;
+                        steerY += (this.y - other.y) / d;
+                        count++;
+                    }
+                }
+                return count > 0 ? { x: steerX / count, y: steerY / count } : { x: 0, y: 0 };
+            }
+
+            align(boids) {
+                let avgX = 0, avgY = 0, count = 0;
+                for (let other of boids) {
+                    let d = Math.hypot(this.x - other.x, this.y - other.y);
+                    if (d > 0 && d < 60) {
+                        avgX += other.vx; avgY += other.vy;
+                        count++;
+                    }
+                }
+                return count > 0 ? { x: avgX / count, y: avgY / count } : { x: 0, y: 0 };
+            }
+
+            cohesion(boids) {
+                let avgX = 0, avgY = 0, count = 0;
+                for (let other of boids) {
+                    let d = Math.hypot(this.x - other.x, this.y - other.y);
+                    if (d > 0 && d < 60) {
+                        avgX += other.x; avgY += other.y;
+                        count++;
+                    }
+                }
+                return count > 0 ? { x: (avgX / count - this.x) * 0.01, y: (avgY / count - this.y) * 0.01 } : { x: 0, y: 0 };
+            }
+
+            update() {
+                this.vx += this.accX; this.vy += this.accY;
+                let mag = Math.hypot(this.vx, this.vy);
+                if (mag > this.maxSpeed) {
+                    this.vx = (this.vx / mag) * this.maxSpeed;
+                    this.vy = (this.vy / mag) * this.maxSpeed;
+                }
+                this.x += this.vx; this.y += this.vy;
+                this.accX = 0; this.accY = 0;
+                const margin = 100;
+                if (this.x < -margin) this.x = width + margin;
+                if (this.x > width + margin) this.x = -margin;
+                if (this.y < -margin) this.y = height + margin;
+                if (this.y > height + margin) this.y = -margin;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(Math.atan2(this.vy, this.vx));
+                ctx.drawImage(fishImg, -15, -10, 30, 20);
+                ctx.restore();
+            }
+        }
+
+        class AmbientAnimal {
+            constructor() { 
+                this.reset(); 
+                // Initial setup: start them at random heights so they don't all spawn at once
+                this.y = Math.random() * height;
+            }
+            reset() {
+                const species = getRandomAnimal();
+                this.img = species.img;
+                this.x = Math.random() * width;
+                this.y = height + 100;
+                this.speed = 0.2 + Math.random() * 0.5;
+                this.offset = Math.random() * 100;
+                this.size = 40 + Math.random() * 20; // Slight variance in size
+            }
+            update() {
+                this.y -= this.speed;
+                this.x += Math.sin(this.y * 0.01 + this.offset) * 0.5;
+                if (this.y < -200) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = 0.25;
+                // Keep them centered on their X/Y
+                ctx.drawImage(this.img, this.x - this.size/2, this.y - this.size/2, this.size, this.size * 1.5);
+                ctx.restore();
+            }
+        }
+
+        const boids = Array.from({ length: 50 }, () => new Boid());
+        // Setting to 3 ambient animals as requested
+        const ambientAnimals = Array.from({ length: 3 }, () => new AmbientAnimal());
+
+        function loop() {
+            ctx.clearRect(0, 0, width, height);
+
+            let dx = angler.targetX - angler.x;
+            let dy = angler.targetY - angler.y;
+            angler.x += dx * 0.02;
+            angler.y += dy * 0.02;
+            angler.flipped = dx < 0; 
+            angler.angle = Math.atan2(dy, dx);
+
+            ctx.save();
+            ctx.translate(angler.x, angler.y);
+            if (angler.flipped) {
+                ctx.scale(-1, 1);
+                ctx.rotate(-angler.angle + Math.PI);
+            } else {
+                ctx.rotate(angler.angle);
+            }
+            ctx.drawImage(anglerImg, -40, -30, 80, 60);
+            ctx.restore();
+
+            ambientAnimals.forEach(a => { a.update(); a.draw(); });
+            boids.forEach(b => {
+                b.applyBehaviors(boids);
+                b.update();
+                b.draw();
+            });
+
+            requestAnimationFrame(loop);
+        }
+        loop();
+
         const sections = document.querySelectorAll('.content-section');
         const dots = document.querySelectorAll('.nav-dot');
-
-        const observerOptions = {
-            threshold: 0.6
-        };
+        const observerOptions = { threshold: 0.6 };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -272,7 +512,6 @@ the International Society of the Learning Sciences (ISLS2026), Irvine, CA.</p>
                     dots.forEach(dot => dot.classList.remove('active'));
                     const activeDot = document.querySelector(`.nav-dot[data-section="${entry.target.id}"]`);
                     if (activeDot) activeDot.classList.add('active');
-                    
                     entry.target.classList.add('active');
                 } else {
                     entry.target.classList.remove('active');

@@ -489,11 +489,11 @@ draw() {
             draw() {
                 if (!this.img.complete) return;
                 const aspectRatio = this.img.naturalHeight / this.img.naturalWidth;
-                const drawWidth = this.baseSize * 1.2;
+                const drawWidth = this.baseSize * 1;
                 const drawHeight = drawWidth * aspectRatio;
 
                 ctx.save();
-                ctx.globalAlpha = 0.8;
+                ctx.globalAlpha = 0.4;
                 ctx.drawImage(this.img, this.x - drawWidth/2, this.y - drawHeight/2, drawWidth, drawHeight);
                 ctx.restore();
             }
@@ -535,6 +535,8 @@ draw() {
                 ctx.drawImage(anglerImg, -anglerW/2, -anglerH/2, anglerW, anglerH);
                 ctx.restore();
             }
+            
+            ctx.globalAlpha = 0.6;
 
             requestAnimationFrame(loop);
         }

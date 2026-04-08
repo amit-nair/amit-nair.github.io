@@ -123,10 +123,11 @@
         /* Main Content Sections */
         .content-section {
             height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile browsers */
             display: flex;
             justify-content: center;
             align-items: center;
-            scroll-snap-align: start; 
+            scroll-snap-align: center; /* Changed to center for better mobile alignment */
             scroll-snap-stop: always;
             position: relative;
             box-sizing: border-box;
@@ -199,14 +200,17 @@
             .header-left h1 { font-size: 1.2em; }
             .header-left p { font-size: 0.7em; }
             
-            /* Center adjustment for mobile */
             .content-section {
-                /* Push content slightly up to visually balance the fixed header space */
-                padding-top: 60px; 
+                scroll-snap-align: center;
             }
             .section-content {
                 padding: 20px;
                 width: 85%;
+                /* Slight upward shift to visually balance the header space */
+                transform: translateY(10px); 
+            }
+            .content-section.active .section-content {
+                transform: translateY(-20px); /* Adjust final position for mobile */
             }
         }
     </style>
@@ -442,29 +446,21 @@
                 if (this.y > height + margin) this.y = -margin;
             }
 
-draw() {
-    if (!fishImg.complete) return;
-    const aspectRatio = fishImg.naturalHeight / fishImg.naturalWidth;
-    const h = this.width * aspectRatio;
-    
-    ctx.save();
-    ctx.translate(this.x, this.y);
-
-    // 1. Get the actual angle of movement
-    let angle = Math.atan2(this.vy, this.vx);
-    
-    // 2. Rotate the canvas to that angle
-    ctx.rotate(angle);
-
-    // 3. If moving left (angle is between 90 and 270 degrees), 
-    // the fish will be upside down. Flip it back upright.
-    if (this.vx < 0) {
-        ctx.scale(1, -1);
-    }
-
-    ctx.drawImage(fishImg, -this.width / 2, -h / 2, this.width, h);
-    ctx.restore();
-}
+            draw() {
+                if (!fishImg.complete) return;
+                const aspectRatio = fishImg.naturalHeight / fishImg.naturalWidth;
+                const h = this.width * aspectRatio;
+                
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                let angle = Math.atan2(this.vy, this.vx);
+                ctx.rotate(angle);
+                if (this.vx < 0) {
+                    ctx.scale(1, -1);
+                }
+                ctx.drawImage(fishImg, -this.width / 2, -h / 2, this.width, h);
+                ctx.restore();
+            }
         }
 
         class AmbientAnimal {
@@ -537,7 +533,6 @@ draw() {
             }
             
             ctx.globalAlpha = 0.6;
-
             requestAnimationFrame(loop);
         }
         loop();

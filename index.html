@@ -322,7 +322,13 @@
         </section>
     </main>
 
-    <script>
+    <script>        
+
+        // Import Three.js via CDN
+        import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
+        import { FBXLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/FBXLoader.js';
+        import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js';
+
         const canvas = document.getElementById('boidCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -594,11 +600,6 @@
                 document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
             });
         });
-
-        // Import Three.js via CDN
-        import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
-        import { FBXLoader } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/FBXLoader.js';
-        import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js';
         
         const container = document.getElementById('titan-container');
         const scene = new THREE.Scene();

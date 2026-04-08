@@ -293,7 +293,7 @@
         let width, height;
         
         const fishImg = new Image();
-        fishImg.src = 'fish_agent.png';
+        fishImg.src = 'fish.png';
         
         const anglerImg = new Image();
         anglerImg.src = 'angler.png';
@@ -489,7 +489,7 @@ draw() {
             draw() {
                 if (!this.img.complete) return;
                 const aspectRatio = this.img.naturalHeight / this.img.naturalWidth;
-                const drawWidth = this.baseSize * 1.5;
+                const drawWidth = this.baseSize * 1.2;
                 const drawHeight = drawWidth * aspectRatio;
 
                 ctx.save();

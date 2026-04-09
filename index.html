@@ -200,12 +200,20 @@
 
         .model-container {
             width: 100%;
-            aspect-ratio: 5 / 3;
-            /*margin: 20px auto;*/
+            /* 1. Sets a base shape */
+            aspect-ratio: 16 / 9; 
+            
+            /* 2. Ensures it's never too small on desktop */
+            min-height: 400px; 
+            
+            /* 3. Ensures it doesn't swallow the whole screen on mobile */
+            max-height: 50vh; 
+            
+            margin: 20px auto;
             border-radius: 15px;
             overflow: hidden;
-            /* This ensures the mouse/touch doesn't break the scroll-snap of your site */
-            touch-action: none; 
+            touch-action: none;
+            background: rgba(0, 0, 0, 0.03); /* Subtle backdrop to see the bounds */
         }
         
         model-viewer {
@@ -213,6 +221,14 @@
             height: 100%;
             --poster-color: transparent;
             outline: none;
+        }
+        
+        /* 4. Fine-tuning for Mobile */
+        @media (max-width: 768px) {
+            .model-container {
+                min-height: 300px; /* Smaller minimum for phones */
+                aspect-ratio: 1 / 1; /* Square is usually better for mobile models */
+            }
         }
 
         /* Mobile Fixes */

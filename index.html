@@ -203,20 +203,18 @@
 
         .model-container {
             width: 100%;
-            /* 1. Sets a base shape */
+            
             aspect-ratio: 16 / 9; 
             
-            /* 2. Ensures it's never too small on desktop */
             min-height: 400px; 
             
-            /* 3. Ensures it doesn't swallow the whole screen on mobile */
             max-height: 50vh; 
             
             margin: 20px auto;
             border-radius: 15px;
             overflow: hidden;
             touch-action: none;
-            background: rgba(0, 0, 0, 0.03); /* Subtle backdrop to see the bounds */
+            background: rgba(0, 0, 0, 0.03);
         }
         
         model-viewer {
@@ -228,17 +226,17 @@
 
         .music-grid {
             display: flex;
-            flex-direction: row !important; /* Forces row even on mobile */
+            flex-direction: row !important;
             gap: 15px;
             width: 100%;
-            overflow-x: auto; /* Horizontal swipe for mobile */
+            overflow-x: auto;
             padding-bottom: 20px;
             -webkit-overflow-scrolling: touch;
             scroll-snap-type: x mandatory;
         }
         
         .music-frame {
-            flex: 0 0 32%; /* Shows most of one player + a peek of the next */
+            flex: 0 0 30%;
             scroll-snap-align: center;
             border-radius: 12px;
             overflow: hidden;

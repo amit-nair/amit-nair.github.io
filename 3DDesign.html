@@ -13,7 +13,10 @@
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
         /* --- Original HTML/Body Logic --- */
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
             font-family: 'Jost', sans-serif;
@@ -26,10 +29,13 @@
             user-select: none;
         }
 
+        /* --- Original Background Canvas Logic --- */
         #boidCanvas {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
             pointer-events: none;
         }
@@ -37,7 +43,9 @@
         /* --- Original Header Styles --- */
         header {
             position: fixed;
-            top: 40px; left: 5%; right: 5%;
+            top: 40px;
+            left: 5%;
+            right: 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -46,81 +54,179 @@
             pointer-events: auto;
         }
 
-        .header-left { display: flex; align-items: center; gap: 20px; }
-        .header-left a { display: flex; align-items: center; transition: opacity 0.3s ease; text-decoration: none; }
-        .header-left a:hover { opacity: 0.8; }
-        .profile-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 1px solid #ddd; }
-        .name-container { display: flex; flex-direction: column; }
-        .header-left h1 { margin: 0; font-size: 1.6em; letter-spacing: 0.15em; font-weight: 370; color: #000; }
-        .header-left p { margin: 2px 0 0; font-size: 0.9em; opacity: 0.7; letter-spacing: 0.2em; font-weight: 430; color: #444; }
-        .header-right a { color: #1a1a1a; margin-left: 25px; font-size: 1.3em; text-decoration: none; transition: color 0.3s ease; }
-        .header-right a:hover { color: #888; }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
 
-        /* --- Structured Layout Styles --- */
-        main { padding: 160px 5% 100px 5%; position: relative; z-index: 10; }
-        .collage-container { max-width: 1000px; margin: 0 auto; }
-        
-        h2 { font-size: 2.8em; letter-spacing: 0.15em; font-weight: 400; margin-bottom: 10px; color: #000; text-align: center; }
-        .collaborators { font-size: 0.9em; opacity: 0.7; margin-bottom: 50px; color: #444; text-align: center; }
+        .header-left a {
+            display: flex;
+            align-items: center;
+            transition: opacity 0.3s ease;
+            text-decoration: none;
+        }
 
-        /* 3D Model Styling */
-        .model-section { margin-bottom: 60px; width: 100%; }
+        .header-left a:hover {
+            opacity: 0.8;
+        }
+
+        .profile-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .name-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-left h1 {
+            margin: 0;
+            font-size: 1.6em;
+            letter-spacing: 0.15em;
+            font-weight: 370;
+            color: #000;
+        }
+
+        .header-left p {
+            margin: 2px 0 0;
+            font-size: 0.9em;
+            opacity: 0.7;
+            letter-spacing: 0.2em;
+            font-weight: 430;
+            color: #444;
+        }
+
+        .header-right a {
+            color: #1a1a1a;
+            margin-left: 25px;
+            font-size: 1.3em;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .header-right a:hover {
+            color: #888;
+        }
+
+        h2 {
+            font-size: 2.8em;
+            letter-spacing: 0.15em;
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: #000;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .collaborators {
+            font-size: 0.9em;
+            opacity: 0.7;
+            margin-bottom: 30px;
+            color: #444;
+            text-align: center;
+        }
+
+        main {
+            padding: 160px 5% 100px 5%;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- NEW LAYOUT SYSTEM --- */
+        .work-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 80px; 
+        }
+
+        .model-section { width: 100%; }
+
         .model-container {
             width: 100%;
             aspect-ratio: 16 / 9;
             min-height: 400px;
             max-height: 50vh;
-            margin: 0 auto 15px auto;
+            margin-bottom: 15px;
             border-radius: 15px;
             overflow: hidden;
             touch-action: none;
             background: rgba(0, 0, 0, 0.03);
             border: 1px solid rgba(0,0,0,0.05);
         }
-        model-viewer { width: 100%; height: 100%; --poster-color: transparent; outline: none; }
 
-        /* Image Row Styling */
-        .image-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 60px;
+        model-viewer {
+            width: 100%;
+            height: 100%;
+            --poster-color: transparent;
+            outline: none;
         }
-        .large-image-row { display: block; margin-bottom: 60px; }
 
-        .art-item {
+        .image-row {
+            display: flex;
+            gap: 25px;
+            width: 100%;
+        }
+
+        .image-pair-item {
+            flex: 1;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
-        .art-item:hover { transform: translateY(-5px); }
-        
-        .img-wrapper {
+
+        .image-pair-item:hover { transform: translateY(-5px); }
+
+        .img-frame {
             width: 100%;
-            aspect-ratio: 1 / 1; /* Makes pairs equal height/width (square) */
-            overflow: hidden;
+            aspect-ratio: 1 / 1; 
             border-radius: 12px;
+            overflow: hidden;
             background: rgba(0,0,0,0.03);
             border: 1px solid rgba(0,0,0,0.05);
+            margin-bottom: 12px;
         }
-        .large-image-row .img-wrapper { aspect-ratio: 16 / 9; } /* Titan remains wide */
 
-        .art-item img {
+        .img-frame img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Crops image to fill the square */
+            object-fit: cover; 
             display: block;
         }
 
-        .item-desc {
-            margin-top: 15px;
-            text-align: center;
-            font-size: 0.95em;
-            font-weight: 300;
-            opacity: 0.8;
-            color: #1a1a1a;
+        .large-image-item { width: 100%; cursor: pointer; }
+
+        .large-img-frame {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 12px;
         }
 
-        /* --- Overlay & Tooltip (Original Logic) --- */
+        .large-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* UPDATED: Darker Labels */
+        .item-label {
+            font-size: 1em;
+            color: #1a1a1a; /* Darker color */
+            letter-spacing: 0.08em;
+            margin: 0;
+            font-weight: 450; /* Slightly bolder */
+            opacity: 0.9;
+        }
+
+        /* --- Tooltip Styles (Original) --- */
         .overlay {
             position: fixed;
             top: 0; left: 0;
@@ -134,6 +240,7 @@
             -webkit-backdrop-filter: blur(20px);
             opacity: 0;
             transition: opacity 0.3s ease;
+            box-sizing: border-box;
         }
 
         .tooltip-card {
@@ -152,18 +259,38 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .tooltip-img-container { flex: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        .tooltip-img { max-width: 100%; max-height: 70vh; object-fit: contain; }
-        .tooltip-text { padding: 25px 30px; font-size: 1.05em; line-height: 1.5; color: #333; background: #ffffff; margin: 0; }
+        .tooltip-img-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            min-height: 0;
+        }
 
-        /* --- Mobile Responsiveness --- */
+        .tooltip-img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            display: block;
+        }
+
+        .tooltip-text {
+            padding: 25px 30px;
+            font-size: 1.05em;
+            line-height: 1.5;
+            color: #333;
+            font-weight: 300;
+            margin: 0;
+            background: #ffffff;
+            overflow-y: auto;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
         @media (max-width: 768px) {
-            .image-row { grid-template-columns: 1fr; }
-            header { top: 20px; }
+            .image-row { flex-direction: column; gap: 40px; }
             .header-left h1 { font-size: 1.2em; }
-            .profile-img { width: 50px; height: 50px; }
             h2 { font-size: 2.2em; }
-            .model-container { min-height: 300px; }
         }
     </style>
 </head>
@@ -189,97 +316,86 @@
     </header>
 
     <main>
-        <div class="collage-container">
+        <div class="work-container">
             <h2>3D Design</h2>
             <p class="collaborators">Assets modelled and textured in 3ds Max and Blender</p>
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/3df1.glb" alt="3D Model 1" auto-rotate camera-controls touch-action="pan-y" shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/3df1.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
-                <p class="item-desc">High-Fidelity Mechanical Study</p>
+                <p class="item-label">Hard Surface Prototype</p>
             </div>
 
             <div class="image-row">
-                <div class="art-item" onclick="openTooltip('3DDesign/3d1.jpg', 'Android Fight')">
-                    <div class="img-wrapper"><img src="3DDesign/3d1.jpg" alt="Android Fight"></div>
-                    <p class="item-desc">Android Fight</p>
+                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d1.jpg', 'Android Fight')">
+                    <div class="img-frame"><img src="3DDesign/3d1.jpg" alt="Android Fight"></div>
+                    <p class="item-label">Android Fight</p>
                 </div>
-                <div class="art-item" onclick="openTooltip('3DDesign/3d2.jpg', 'Mountainside Living')">
-                    <div class="img-wrapper"><img src="3DDesign/3d2.jpg" alt="Mountainside Living"></div>
-                    <p class="item-desc">Mountainside Living</p>
+                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d2.jpg', 'Mountainside Living')">
+                    <div class="img-frame"><img src="3DDesign/3d2.jpg" alt="Mountainside Living"></div>
+                    <p class="item-label">Mountainside Living</p>
                 </div>
             </div>
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/3df2.glb" alt="3D Model 2" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/3df2.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
-                <p class="item-desc">Environment Architectural Visualization</p>
+                <p class="item-label">Mechanical Study</p>
             </div>
 
             <div class="image-row">
-                <div class="art-item" onclick="openTooltip('3DDesign/3d4.jpg', 'Wine Glasses')">
-                    <div class="img-wrapper"><img src="3DDesign/3d4.jpg" alt="Wine Glasses"></div>
-                    <p class="item-desc">Wine Glasses</p>
+                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d6.jpg', 'Winter Lodge')">
+                    <div class="img-frame"><img src="3DDesign/3d6.jpg" alt="Winter Lodge"></div>
+                    <p class="item-label">Winter Lodge</p>
                 </div>
-                <div class="art-item" onclick="openTooltip('3DDesign/3d5.png', 'Vehicle Design: Batpod')">
-                    <div class="img-wrapper"><img src="3DDesign/3d5.png" alt="Batpod"></div>
-                    <p class="item-desc">Vehicle Design: Batpod</p>
+                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d4.jpg', 'Wine Glasses')">
+                    <div class="img-frame"><img src="3DDesign/3d4.jpg" alt="Wine Glasses"></div>
+                    <p class="item-label">Wine Glasses</p>
                 </div>
             </div>
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/3df3.glb" alt="3D Model 3" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/3df3.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
-                <p class="item-desc">Submersible Engineering Render</p>
+                <p class="item-label">Structural Visualization</p>
             </div>
 
-            <div class="large-image-row">
-                <div class="art-item" onclick="openTooltip('3DDesign/3d3.jpg', 'OceanGate Titan Submersible')">
-                    <div class="img-wrapper"><img src="3DDesign/3d3.jpg" alt="OceanGate Titan Submersible"></div>
-                    <p class="item-desc">OceanGate Titan Submersible</p>
+            <div class="large-image-item" onclick="openTooltip('3DDesign/3d3.jpg', 'OceanGate Titan Submersible')">
+                <div class="large-img-frame">
+                    <img src="3DDesign/3d3.jpg" alt="OceanGate Titan Submersible">
                 </div>
+                <p class="item-label">OceanGate Titan Submersible</p>
             </div>
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/3df4.glb" alt="3D Model 4" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/3df4.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
-                <p class="item-desc">Interior Lighting Composition</p>
+                <p class="item-label">Environment Asset</p>
             </div>
 
             <div class="image-row">
-                <div class="art-item" onclick="openTooltip('3DDesign/3d6.jpg', 'Winter Lodge')">
-                    <div class="img-wrapper"><img src="3DDesign/3d6.jpg" alt="Winter Lodge"></div>
-                    <p class="item-desc">Winter Lodge</p>
+                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d7.jpg', 'Outdoor Dining')">
+                    <div class="img-frame"><img src="3DDesign/3d7.jpg" alt="Outdoor Dining"></div>
+                    <p class="item-label">Outdoor Dining</p>
                 </div>
-                <div class="art-item" onclick="openTooltip('3DDesign/3d7.jpg', 'Outdoor Dining')">
-                    <div class="img-wrapper"><img src="3DDesign/3d7.jpg" alt="Outdoor Dining"></div>
-                    <p class="item-desc">Outdoor Dining</p>
+                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d8.jpg', 'Colourless Kitchen')">
+                    <div class="img-frame"><img src="3DDesign/3d8.jpg" alt="Colourless Kitchen"></div>
+                    <p class="item-label">Colourless Kitchen</p>
                 </div>
             </div>
 
             <div class="image-row">
-                <div class="art-item" onclick="openTooltip('3DDesign/3d8.jpg', 'Colourless Kitchen')">
-                    <div class="img-wrapper"><img src="3DDesign/3d8.jpg" alt="Colourless Kitchen"></div>
-                    <p class="item-desc">Colourless Kitchen</p>
+                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d5.png', 'Vehicle Design: Batpod')">
+                    <div class="img-frame"><img src="3DDesign/3d5.png" alt="Batpod"></div>
+                    <p class="item-label">Vehicle Design: Batpod</p>
                 </div>
-                <div class="art-item" onclick="openTooltip('3DDesign/3d9.jpg', 'Teacup')">
-                    <div class="img-wrapper"><img src="3DDesign/3d9.jpg" alt="Teacup"></div>
-                    <p class="item-desc">Teacup</p>
-                </div>
-            </div>
-
-             <div class="image-row">
-                <div class="art-item" onclick="openTooltip('3DDesign/3d10.gif', 'Mirror cube and fish')">
-                    <div class="img-wrapper"><img src="3DDesign/3d10.gif" alt="Mirror cube"></div>
-                    <p class="item-desc">Mirror cube and fish</p>
-                </div>
-                <div class="art-item" onclick="openTooltip('3DDesign/3d11.jpg', 'XLR8 in a Basketball Court')">
-                    <div class="img-wrapper"><img src="3DDesign/3d11.jpg" alt="XLR8"></div>
-                    <p class="item-desc">XLR8 in a Basketball Court</p>
+                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d11.jpg', 'XLR8 in a Basketball Court')">
+                    <div class="img-frame"><img src="3DDesign/3d11.jpg" alt="XLR8"></div>
+                    <p class="item-label">XLR8 Basketball Court</p>
                 </div>
             </div>
 
@@ -289,14 +405,14 @@
     <div id="overlay" class="overlay" onclick="closeTooltip()">
         <div class="tooltip-card" onclick="event.stopPropagation()">
             <div class="tooltip-img-container">
-                <img id="modalImg" class="tooltip-img" src="" alt="Full View">
+                <img id="modalImg" class="tooltip-img" src="" alt="Full View Artwork">
             </div>
             <p id="tip-desc" class="tooltip-text"></p>
         </div>
     </div>
 
     <script>
-        /* --- Tooltip Functionality (Kept Exactly Same) --- */
+        /* --- Tooltip Functionality --- */
         function openTooltip(imgSrc, description) {
             document.getElementById('modalImg').src = imgSrc;
             document.getElementById('tip-desc').innerText = description;
@@ -318,17 +434,32 @@
             document.body.style.overflow = 'auto'; 
         }
 
-        document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeTooltip(); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") closeTooltip();
+        });
 
-        /* --- Original Boid Logic (Kept Exactly Same) --- */
+        /* --- Original Boid Logic (RESTORED EXACTLY) --- */
         const canvas = document.getElementById('boidCanvas');
         const ctx = canvas.getContext('2d');
+
         let width, height;
         const fishImg = new Image(); fishImg.src = 'fish.png';
         const anglerImg = new Image(); anglerImg.src = 'angler.png';
         const placeholderJelly = new Image(); placeholderJelly.src = 'jelly.png';
 
-        const animalPool = [{ name: "Jellyfish", weight: 50, img: placeholderJelly }];
+        const animalPool = [
+            { name: "Jellyfish", weight: 50, img: placeholderJelly },
+            { name: "Octopus", weight: 5, img: placeholderJelly },
+            { name: "Shark", weight: 5, img: placeholderJelly },
+            { name: "Isopod", weight: 5, img: placeholderJelly },
+            { name: "Squid", weight: 5, img: placeholderJelly },
+            { name: "Nautilus", weight: 5, img: placeholderJelly },
+            { name: "Sea Lilly", weight: 5, img: placeholderJelly },
+            { name: "Crab", weight: 5, img: placeholderJelly },
+            { name: "Submarine", weight: 5, img: placeholderJelly },
+            { name: "Gulper Eel", weight: 5, img: placeholderJelly },
+            { name: "Seadragon", weight: 5, img: placeholderJelly }
+        ];
 
         function getRandomAnimal() {
             let totalWeight = animalPool.reduce((sum, animal) => sum + animal.weight, 0);
@@ -363,51 +494,184 @@
                 this.y = Math.random() * height;
                 this.vx = (Math.random() - 0.5) * 2;
                 this.vy = (Math.random() - 0.5) * 2;
-                this.accX = 0; this.accY = 0;
+                this.accX = 0;
+                this.accY = 0;
                 this.baseMaxSpeed = 1 + Math.random() * 0.4;
+                this.burstMaxSpeed = 2.5 + Math.random() * 1;
                 this.maxSpeed = this.baseMaxSpeed;
+                this.maxForce = 0.05;
+                this.isBursting = false;
+                this.burstTimer = 0;
                 this.width = 30;
             }
+
             applyBehaviors(boids) {
+                if (!this.isBursting && Math.random() < 0.003) {
+                    this.isBursting = true;
+                    this.burstTimer = 30 + Math.random() * 40;
+                }
+                if (this.isBursting) {
+                    this.maxSpeed = this.burstMaxSpeed;
+                    this.maxForce = 0.2;
+                    this.burstTimer--;
+                    if (this.burstTimer <= 0) this.isBursting = false;
+                } else {
+                    this.maxSpeed += (this.baseMaxSpeed - this.maxSpeed) * 0.1;
+                    this.maxForce = 0.05;
+                }
+                let sep = this.separate(boids);
+                let ali = this.align(boids);
+                let coh = this.cohesion(boids);
+                let avoid = this.avoidAngler();
+                this.accX += sep.x * 1.5 + ali.x * 1.0 + coh.x * 1.0 + avoid.x * 4.0;
+                this.accY += sep.y * 1.5 + ali.y * 1.0 + coh.y * 1.0 + avoid.y * 4.0;
                 this.accX += Math.cos(Date.now() * 0.001 + this.x) * 0.02;
                 this.accY += Math.sin(Date.now() * 0.001 + this.y) * 0.02;
             }
+
+            avoidAngler() {
+                let d = Math.hypot(this.x - angler.x, this.y - angler.y);
+                if (d < 180) {
+                    this.isBursting = true;
+                    this.burstTimer = 20;
+                    return { x: (this.x - angler.x) / d, y: (this.y - angler.y) / d };
+                }
+                return { x: 0, y: 0 };
+            }
+
+            separate(boids) {
+                let steerX = 0, steerY = 0, count = 0;
+                for (let other of boids) {
+                    let d = Math.hypot(this.x - other.x, this.y - other.y);
+                    if (d > 0 && d < 30) {
+                        steerX += (this.x - other.x) / d;
+                        steerY += (this.y - other.y) / d;
+                        count++;
+                    }
+                }
+                return count > 0 ? { x: steerX / count, y: steerY / count } : { x: 0, y: 0 };
+            }
+
+            align(boids) {
+                let avgX = 0, avgY = 0, count = 0;
+                for (let other of boids) {
+                    let d = Math.hypot(this.x - other.x, this.y - other.y);
+                    if (d > 0 && d < 60) {
+                        avgX += other.vx; avgY += other.vy;
+                        count++;
+                    }
+                }
+                return count > 0 ? { x: avgX / count, y: avgY / count } : { x: 0, y: 0 };
+            }
+
+            cohesion(boids) {
+                let avgX = 0, avgY = 0, count = 0;
+                for (let other of boids) {
+                    let d = Math.hypot(this.x - other.x, this.y - other.y);
+                    if (d > 0 && d < 60) {
+                        avgX += other.x; avgY += other.y;
+                        count++;
+                    }
+                }
+                return count > 0 ? { x: (avgX / count - this.x) * 0.01, y: (avgY / count - this.y) * 0.01 } : { x: 0, y: 0 };
+            }
+
             update() {
                 this.vx += this.accX; this.vy += this.accY;
+                let mag = Math.hypot(this.vx, this.vy);
+                if (mag > this.maxSpeed) {
+                    this.vx = (this.vx / mag) * this.maxSpeed;
+                    this.vy = (this.vy / mag) * this.maxSpeed;
+                }
                 this.x += this.vx; this.y += this.vy;
-                if (this.x < -100) this.x = width + 100;
-                if (this.x > width + 100) this.x = -100;
-                if (this.y < -100) this.y = height + 100;
-                if (this.y > height + 100) this.y = -100;
                 this.accX = 0; this.accY = 0;
+                const margin = 100;
+                if (this.x < -margin) this.x = width + margin;
+                if (this.x > width + margin) this.x = -margin;
+                if (this.y < -margin) this.y = height + margin;
+                if (this.y > height + margin) this.y = -margin;
             }
+
             draw() {
                 if (!fishImg.complete) return;
+                const aspectRatio = fishImg.naturalHeight / fishImg.naturalWidth;
+                const h = this.width * aspectRatio;
                 ctx.save();
                 ctx.translate(this.x, this.y);
-                ctx.rotate(Math.atan2(this.vy, this.vx));
-                ctx.drawImage(fishImg, -15, -10, 30, 20);
+                let angle = Math.atan2(this.vy, this.vx);
+                ctx.rotate(angle);
+                if (this.vx < 0) ctx.scale(1, -1);
+                ctx.drawImage(fishImg, -this.width / 2, -h / 2, this.width, h);
                 ctx.restore();
             }
         }
 
-        const boids = Array.from({ length: 40 }, () => new Boid());
+        class AmbientAnimal {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * height;
+            }
+            reset() {
+                const species = getRandomAnimal();
+                this.img = species.img;
+                this.x = Math.random() * width;
+                this.y = height + 100;
+                this.speed = 0.2 + Math.random() * 0.5;
+                this.offset = Math.random() * 100;
+                this.baseSize = 40 + Math.random() * 20;
+            }
+            update() {
+                this.y -= this.speed;
+                this.x += Math.sin(this.y * 0.01 + this.offset) * 0.5;
+                if (this.y < -200) this.reset();
+            }
+            draw() {
+                if (!this.img.complete) return;
+                const aspectRatio = this.img.naturalHeight / this.img.naturalWidth;
+                const drawWidth = this.baseSize;
+                const drawHeight = drawWidth * aspectRatio;
+                ctx.save();
+                ctx.globalAlpha = 0.4;
+                ctx.drawImage(this.img, this.x - drawWidth / 2, this.y - drawHeight / 2, drawWidth, drawHeight);
+                ctx.restore();
+            }
+        }
+
+        const boids = Array.from({ length: 50 }, () => new Boid());
+        const ambientAnimals = Array.from({ length: 3 }, () => new AmbientAnimal());
 
         function loop() {
             ctx.clearRect(0, 0, width, height);
-            angler.x += (angler.targetX - angler.x) * 0.02;
-            angler.y += (angler.targetY - angler.y) * 0.02;
+            let dx = angler.targetX - angler.x;
+            let dy = angler.targetY - angler.y;
+            angler.x += dx * 0.02;
+            angler.y += dy * 0.02;
+            angler.flipped = dx < 0;
+            angler.angle = Math.atan2(dy, dx);
+
+            ambientAnimals.forEach(a => { a.update(); a.draw(); });
             boids.forEach(b => { b.applyBehaviors(boids); b.update(); b.draw(); });
+
             if (anglerImg.complete) {
+                const anglerAspect = anglerImg.naturalHeight / anglerImg.naturalWidth;
+                const anglerW = 80;
+                const anglerH = anglerW * anglerAspect;
                 ctx.save();
                 ctx.translate(angler.x, angler.y);
-                if (angler.targetX < angler.x) ctx.scale(-1, 1);
-                ctx.drawImage(anglerImg, -40, -30, 80, 60);
+                if (angler.flipped) {
+                    ctx.scale(-1, 1);
+                    ctx.rotate(-angler.angle + Math.PI);
+                } else {
+                    ctx.rotate(angler.angle);
+                }
+                ctx.drawImage(anglerImg, -anglerW / 2, -anglerH / 2, anglerW, anglerH);
                 ctx.restore();
             }
+            ctx.globalAlpha = 0.6; 
             requestAnimationFrame(loop);
         }
         loop();
     </script>
 </body>
+
 </html>

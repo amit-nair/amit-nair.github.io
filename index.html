@@ -243,14 +243,30 @@
         }
         
         .video-frame {
+            position: relative; 
             width: 100%;
             aspect-ratio: 16 / 9; 
-            min-height: 400px; 
-            max-height: 50vh;  
+            min-height: 400px;
+            max-height: 50vh;
             margin: 20px auto;
             border-radius: 15px;
             overflow: hidden;
             background: #000;
+        }
+        
+        .video-credit {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            font-size: 0.65em;
+            color: rgba(255, 255, 255, 0.7); /* White with transparency */
+            background: rgba(0, 0, 0, 0.4);   /* Dark pill background */
+            padding: 4px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);      /* Glass effect */
+            pointer-events: none;            /* So it doesn't block clicks */
+            z-index: 5;
+            letter-spacing: 0.05em;
         }
         
         @media (min-width: 769px) {
@@ -416,9 +432,11 @@
                         allow="autoplay" 
                         frameborder="0">
                     </iframe>
+                    
+                    <div class="video-credit">
+                        Music: Jóhann Jóhannsson — Arrival (2016)
+                    </div>
                 </div>
-                
-                <p class="collaborators" style="font-size: 0.7em !important">Music credit: Jóhann Jóhannsson - Arrival (2016)</p>
         
                 <a href="#" target="_blank" class="project-button">
                     <i class="fa-solid fa-gamepad" style="margin-right: 10px;"></i> MORE

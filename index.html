@@ -302,6 +302,31 @@
             transition: transform 0.2s ease;
         }
 
+        .citation-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px auto 30px auto;
+            max-width: 90%;
+            text-align: left; 
+            font-size: 0.85em;
+            line-height: 1.6;
+            color: #444;
+        }
+        
+        .citation-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+        
+        .citation-list li::before {
+            content: "—"; 
+            position: absolute;
+            left: 0;
+            color: #000;
+        }
+
         @media (max-width: 768px) {
             .mobile-hidden {
                 display: none !important;
@@ -455,11 +480,17 @@
                     <h3 style="font-size: 1em; letter-spacing: 0.2em; margin-bottom: 15px; text-align: center; font-weight: 500;">PUBLICATIONS</h3>
                     
                     <div class="publication-item" style="font-size: 0.85em; line-height: 1.6; color: #333;">
-                        <p class="collaborators">
-                            <strong>Nair, A.</strong>, Su, M., & Nagashima, T. (2026). 
-                            <em>Investigating human-AI agency in interactive simulations for complex systems education: The effects of questioning and content agency on student learning.</em> 
-                            In Proceedings of the Annual Meeting for the International Society of the Learning Sciences (ISLS2026), Irvine, CA.
-                        </p>
+                        <ul class="citation-list">
+                            <li>
+                                <strong>Nair, A.</strong>, Su, M., & Nagashima, T. (2026).
+                                <em>Investigating human-AI agency in interactive simulations for complex systems education: The effects of questioning and content agency on student learning.</em> 
+                                In Proceedings of the Annual Meeting for the International Society of the Learning Sciences (ISLS2026), Irvine, CA.
+                            </li>
+                            <li>
+                                Su, M., <strong>Nair, A.</strong>, & Nagashima, T. (Under Review). 
+                                <em>Exploring Human Agency in an AI-supported Simulation Environment for Complex Systems Education.</em>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

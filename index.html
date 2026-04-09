@@ -323,6 +323,20 @@
             content: none; 
         }
 
+        .header-left a {
+            display: flex;
+            align-items: center;
+            transition: opacity 0.3s ease;
+        }
+        
+        .header-left a: hover {
+            opacity: 0.8; 
+        }
+        
+        .profile-img {
+            cursor: pointer;
+        }
+
         @media (max-width: 768px) {
             .mobile-hidden {
                 display: none !important;
@@ -417,7 +431,9 @@
 
     <header>
         <div class="header-left">
-            <img src="https://tomonag.org/wp-content/uploads/2024/09/amit_round.png" alt="Amit Nair" class="profile-img">
+            <a href="https://amit-nair.github.io">
+                <img src="https://tomonag.org/wp-content/uploads/2024/09/amit_round.png" alt="Amit Nair" class="profile-img">
+            </a>
             <div class="name-container">
                 <h1>AMIT NAIR</h1>
                 <p>Student Researcher</p>

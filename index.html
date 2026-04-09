@@ -225,18 +225,35 @@
 
         .music-grid {
             display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 25px;
+            gap: 10px;
             width: 100%;
+            overflow-x: auto; /* Allows swiping on mobile */
+            padding-bottom: 15px; /* Space for the scrollbar */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iPhones */
         }
         
         .music-frame {
-            flex: 1; /* Makes all three equal width */
+            flex: 0 0 80%; /* Each player takes up 80% of the screen width on mobile */
             min-width: 250px;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .video-container iframe {
+            border: none;
+            display: block;
+        }
+        
+        /* Desktop override: Make them share the space equally */
+        @media (min-width: 769px) {
+            .music-grid {
+                overflow-x: hidden;
+                justify-content: center;
+            }
+            .music-frame {
+                flex: 1; /* Each takes 1/3 of the row */
+                max-width: 300px;
+            }
         }
         
         /* Responsive fix for smaller screens */
@@ -388,7 +405,21 @@
         <section id="section-5" class="content-section">
             <div class="section-content">
                 <h2>Game Development</h2>
-                <p class="collaborators"> Reach out via email or LinkedIn.</p>
+                <p class="collaborators">Interactive virtual experiences built in Unity</p>
+        
+                <div class="video-container" style="width: 100%; margin: 20px auto; border-radius: 15px; overflow: hidden; background: #000; aspect-ratio: 16 / 9;">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1D0KX2wOpTYVOow5C_IGCSOvLRIU0Ub26/preview" 
+                        width="100%" 
+                        height="100%" 
+                        allow="autoplay" 
+                        frameborder="0">
+                    </iframe>
+                </div>
+        
+                <a href="#" target="_blank" class="project-button">
+                    <i class="fa-solid fa-gamepad" style="margin-right: 10px;"></i> MORE
+                </a>
             </div>
         </section>
 
@@ -400,8 +431,9 @@
         </section>
 
         <section id="section-7" class="content-section">
-            <div class="section-content" style="max-width: 1000px;"> <h2>Music</h2>
-                <p class="collaborators">Original tracks created with open-source sound libraries</p>
+            <div class="section-content" style="max-width: 1100px; width: 95%;">
+                <h2>Music</h2>
+                <p class="collaborators">Original tracks created using open-source sound libraries</p>
                 
                 <div class="music-grid">
                     <div class="music-frame">
@@ -417,7 +449,7 @@
                     </div>
                 </div>
         
-                <a href="https://soundcloud.com/16000PSI" target="_blank" class="project-button" style="margin-top: 20px;">
+                <a href="https://soundcloud.com/16000PSI" target="_blank" class="project-button">
                     <i class="fa-brands fa-soundcloud" style="margin-right: 10px;"></i> LISTEN
                 </a>
             </div>

@@ -305,6 +305,17 @@
             .mobile-hidden {
                 display: none !important;
             }
+        
+            .music-grid {
+                display: block;
+                padding-bottom: 10px;
+            }
+        
+            .music-frame {
+                flex: 0 0 100%;
+                width: 100%;
+                max-width: none;
+            }
         }
         
         /* On mobile, center the text for a cleaner look if preferred */
@@ -316,14 +327,6 @@
         }
         
         @media (min-width: 769px) {
-            .music-grid {
-                overflow-x: hidden;
-                justify-content: center;
-            }
-            .music-frame {
-                flex: 1; 
-                max-width: 300px;
-            }
             .video-frame {
                 width: 100%;
             }

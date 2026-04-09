@@ -29,7 +29,7 @@
             user-select: none;
         }
 
-        /* --- Original Background Canvas Logic --- */
+        /* --- Background Canvas --- */
         #boidCanvas {
             position: fixed;
             top: 0;
@@ -40,7 +40,7 @@
             pointer-events: none;
         }
 
-        /* --- Original Header Styles --- */
+        /* --- Header Styles --- */
         header {
             position: fixed;
             top: 40px;
@@ -114,31 +114,31 @@
             color: #888;
         }
 
-        h2 {
-            font-size: 2.8em;
-            letter-spacing: 0.15em;
-            font-weight: 400;
-            margin-bottom: 20px;
-            color: #000;
-            text-align: center;
-            margin-top: 0;
-        }
-
-        .collaborators {
-            font-size: 0.9em;
-            opacity: 0.7;
-            margin-bottom: 30px;
-            color: #444;
-            text-align: center;
-        }
-
+        /* --- Restore Spacing and Grey Text --- */
         main {
             padding: 160px 5% 100px 5%;
             position: relative;
             z-index: 10;
         }
 
-        /* --- NEW LAYOUT SYSTEM --- */
+        h2 {
+            font-size: 2.8em;
+            letter-spacing: 0.15em;
+            font-weight: 400;
+            margin: 0 0 10px 0; /* Reduced margin to fix displacement */
+            color: #1a1a1a;
+            text-align: center;
+        }
+
+        .collaborators {
+            font-size: 0.9em;
+            opacity: 0.6; /* Restored lower opacity */
+            margin: 0 0 60px 0; /* Clear space before first model */
+            color: #444; /* Original grey */
+            text-align: center;
+        }
+
+        /* --- Layout System --- */
         .work-container {
             max-width: 1100px;
             margin: 0 auto;
@@ -216,17 +216,17 @@
             object-fit: cover;
         }
 
-        /* UPDATED: Darker Labels */
+        /* Original Label Styling (Grey) */
         .item-label {
-            font-size: 1em;
-            color: #1a1a1a; /* Darker color */
-            letter-spacing: 0.08em;
+            font-size: 0.9em;
+            color: #444;
+            letter-spacing: 0.1em;
             margin: 0;
-            font-weight: 450; /* Slightly bolder */
-            opacity: 0.9;
+            font-weight: 400;
+            opacity: 0.7;
         }
 
-        /* --- Tooltip Styles (Original) --- */
+        /* --- Tooltip Styles --- */
         .overlay {
             position: fixed;
             top: 0; left: 0;
@@ -317,8 +317,10 @@
 
     <main>
         <div class="work-container">
-            <h2>3D Design</h2>
-            <p class="collaborators">Assets modelled and textured in 3ds Max and Blender</p>
+            <div>
+                <h2>3D Design</h2>
+                <p class="collaborators">Assets modelled and textured in 3ds Max and Blender</p>
+            </div>
 
             <div class="model-section">
                 <div class="model-container">
@@ -445,10 +447,9 @@
             if (e.key === "Escape") closeTooltip();
         });
 
-        /* --- Original Boid Logic (RESTORED EXACTLY) --- */
+        /* --- Boid Logic --- */
         const canvas = document.getElementById('boidCanvas');
         const ctx = canvas.getContext('2d');
-
         let width, height;
         const fishImg = new Image(); fishImg.src = 'fish.png';
         const anglerImg = new Image(); anglerImg.src = 'angler.png';

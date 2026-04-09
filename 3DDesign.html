@@ -138,13 +138,13 @@
             z-index: 10;
         }
 
-        /* --- RESTORED ORIGINAL LAYOUT --- */
+        /* --- NEW LAYOUT SYSTEM --- */
         .work-container {
             max-width: 1100px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 40px; /* Restored original tight spacing */
+            gap: 80px; 
         }
 
         .model-section { width: 100%; }
@@ -216,16 +216,17 @@
             object-fit: cover;
         }
 
-        /* DARKER LABELS - NO OPACITY */
+        /* UPDATED: Darker Labels */
         .item-label {
             font-size: 1em;
-            color: #1a1a1a; 
+            color: #1a1a1a; /* Darker color */
             letter-spacing: 0.08em;
             margin: 0;
-            font-weight: 450;
+            font-weight: 450; /* Slightly bolder */
+            opacity: 0.9;
         }
 
-        /* --- Tooltip Styles --- */
+        /* --- Tooltip Styles (Original) --- */
         .overlay {
             position: fixed;
             top: 0; left: 0;
@@ -323,7 +324,7 @@
                 <div class="model-container">
                     <model-viewer src="3DFiles/3df1.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
-                <p class="item-label">Mantella Frog</p>
+                <p class="item-label">Golden Mantella</p>
             </div>
 
             <div class="image-row">
@@ -357,7 +358,7 @@
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="titan.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/3df3.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">OceanGate Titan Submersible</p>
             </div>
@@ -373,7 +374,7 @@
                 <div class="model-container">
                     <model-viewer src="3DFiles/3df4.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
-                <p class="item-label">Dogtopus (Unused Outfit for the Flocking Simulator)</p>
+                <p class="item-label">Dogtopus (Unused Outfit from the Flocking Simulator)</p>
             </div>
 
             <div class="image-row">
@@ -386,7 +387,7 @@
                     <p class="item-label">Colourless Kitchen</p>
                 </div>
             </div>
-
+            
             <div class="model-section">
                 <div class="model-container">
                     <model-viewer src="3DFiles/3df4.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>

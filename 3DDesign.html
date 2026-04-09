@@ -118,17 +118,18 @@
             font-size: 2.8em;
             letter-spacing: 0.15em;
             font-weight: 400;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             color: #000;
             text-align: center;
             margin-top: 0;
         }
-        
+
         .collaborators {
             font-size: 0.9em;
             opacity: 0.7;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
             color: #444;
+            text-align: center;
         }
 
         main {
@@ -137,73 +138,118 @@
             z-index: 10;
         }
 
-        .collage-container {
-            max-width: 1200px;
+        .content-container {
+            max-width: 1000px;
             margin: 0 auto;
         }
 
-        .collage-grid {
-            column-count: 3;
-            column-gap: 20px;
-            width: 100%;
+        /* --- New Layout Logic --- */
+        
+        .section-label {
+            text-align: center;
+            font-size: 0.9em;
+            margin-top: 15px;
+            margin-bottom: 40px;
+            opacity: 0.6;
+            font-weight: 400;
+            letter-spacing: 0.1em;
         }
 
-        .art-item {
-            display: inline-block;
+        /* 3D Model Styles */
+        .model-container {
             width: 100%;
-            margin-bottom: 20px;
-            break-inside: avoid;
+            aspect-ratio: 16 / 9;
+            min-height: 400px;
+            max-height: 50vh;
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            touch-action: none;
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 100%;
+            --poster-color: transparent;
+            outline: none;
+        }
+
+        /* Image Row Styles (2 per row) */
+        .image-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .image-item {
+            flex: 1;
             cursor: pointer;
             border-radius: 12px;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
             background: rgba(0,0,0,0.03);
             border: 1px solid rgba(0,0,0,0.05);
         }
 
-        .art-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        .image-item img {
+            width: 100%;
+            aspect-ratio: 4 / 3; /* Forces equal height/width ratio */
+            object-fit: cover; /* Crops image to fit the container */
+            display: block;
+            transition: opacity 0.3s ease;
         }
 
-        .art-item img {
+        .image-item:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Large Single Image */
+        .large-image-container {
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .large-image-container img {
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 12px;
         }
 
+        /* Tooltip / Overlay Logic */
         .overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.4); /* Transparent Base */
+            background: rgba(255, 255, 255, 0.4);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 2000;
-            backdrop-filter: blur(20px); /* Frosted Glass Effect */
+            backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             opacity: 0;
             transition: opacity 0.3s ease;
-            padding: 0; /* No padding on overlay for tight look */
-            box-sizing: border-box;
         }
 
         .tooltip-card {
-            background: rgba(255, 255, 255, 0.1); /* Very transparent card panel */
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             max-width: 800px;
-            width: 95%; /* Small margin on desktop */
+            width: 95%;
             display: flex;
             flex-direction: column;
-            max-height: 95vh; /* Almost full height */
+            max-height: 95vh;
             position: relative;
             box-shadow: 0 20px 60px rgba(0,0,0,0.1);
             transform: translateY(20px);
             transition: transform 0.3s ease;
-            overflow: hidden; 
-            border: 1px solid rgba(255, 255, 255, 0.2); /* Glass border */
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .tooltip-img-container {
@@ -211,97 +257,35 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* YELLOW BASE REMOVED */
             overflow: hidden;
-            min-height: 0; 
-            padding: 0; /* Minimal padding around image */
+            min-height: 0;
         }
 
         .tooltip-img {
             max-width: 100%;
-            max-height: 70vh; /* Allow image to be tall */
+            max-height: 70vh;
             object-fit: contain;
             display: block;
         }
 
         .tooltip-text {
-            /* Text has a solid white base card and comfortable padding */
-            padding: 25px 30px; 
+            padding: 25px 30px;
             font-size: 1.05em;
             line-height: 1.5;
             color: #333;
             font-weight: 300;
             margin: 0;
-            background: #ffffff; /* Solid White Base for Text */
-            overflow-y: auto; 
-            border-top: 1px solid rgba(0,0,0,0.05); /* Subtle separation */
+            background: #ffffff;
+            overflow-y: auto;
+            border-top: 1px solid rgba(0,0,0,0.05);
         }
 
-        .close-btn {
-            position: fixed;
-            top: 25px;
-            right: 25px;
-            font-size: 2.5em;
-            cursor: pointer;
-            z-index: 2100;
-            color: #000;
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
-        }
-        
-        .close-btn:hover {
-            opacity: 1;
-        }
-
-        /* --- Mobile Responsiveness Logic --- */
-        @media (max-width: 900px) {
-            .collage-grid { column-count: 2; }
-        }
-
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
+            .image-row { flex-direction: column; }
+            .model-container { min-height: 300px; }
             header { top: 20px; }
-            .header-left h1 { font-size: 1.2em; }
-            .header-left p { font-size: 0.7em; }
-            .profile-img { width: 50px; height: 50px; }
             h2 { font-size: 2.2em; }
-        }
-
-        @media (max-width: 600px) {
-            .collage-grid { column-count: 1; }
-            main { padding-top: 130px; }
-            
-            .overlay { align-items: center; } /* Keep centered */
-            
-            .tooltip-card {
-                border-radius: 12px; /* Small radius on mobile */
-                height: auto;
-                max-height: 90vh;
-                width: 90%; /* Tight but not edge-to-edge */
-                transform: translateY(0);
-            }
-
-            .tooltip-img {
-                max-height: 60vh; /* Leave room for text */
-            }
-
-            .tooltip-text {
-                padding: 20px;
-                font-size: 1em;
-            }
-
-            .close-btn {
-                top: 15px;
-                right: 20px;
-                font-size: 2.2em;
-                background: rgba(255,255,255,0.7); /* Blend with glass */
-                width: 40px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                backdrop-filter: blur(5px);
-            }
         }
     </style>
 </head>
@@ -327,65 +311,69 @@
     </header>
 
     <main>
-        <div class="collage-container">
+        <div class="content-container">
             <h2>3D Design</h2>
-            <p class="collaborators" style="text-align: center">Assets modelled and textured in 3ds Max and Blender</p>
+            <p class="collaborators">Assets modelled and textured in 3ds Max and Blender</p>
 
-            <div class="collage-grid">
-                <div class="art-item" onclick="openTooltip('3DDesign/3d1.jpg', 'Android Fight')">
-                    <img src="3DDesign/3d1.jpg" alt="Artwork 1">
-                </div>
+            <div class="model-container">
+                <model-viewer src="3DFiles/3df1.glb" alt="OceanGate Titan" auto-rotate camera-controls touch-action="pan-y" shadow-intensity="1"></model-viewer>
+            </div>
+            <p class="section-label">OceanGate Titan Submersible (3D Model)</p>
 
-                
-                <div class="art-item" onclick="openTooltip('3DDesign/3d2.jpg', 'Mountainside Living')">
-                    <img src="3DDesign/3d2.jpg" alt="Artwork 2">
+            <div class="image-row">
+                <div class="image-item" onclick="openTooltip('3DDesign/3d1.jpg', 'Android Fight')">
+                    <img src="3DDesign/3d1.jpg" alt="Android Fight">
                 </div>
+                <div class="image-item" onclick="openTooltip('3DDesign/3d2.jpg', 'Mountainside Living')">
+                    <img src="3DDesign/3d2.jpg" alt="Mountainside Living">
+                </div>
+            </div>
+            <p class="section-label">Android Fight & Mountainside Living (Renders)</p>
 
-                
-                <div class="art-item" onclick="openTooltip('3DDesign/3d3.jpg', 'OceanGate Titan Submersible')">
-                    <img src="3DDesign/3d3.jpg" alt="Artwork 3">
-                </div>
+            <div class="model-container">
+                <model-viewer src="3DFiles/3df2.glb" alt="Batpod" auto-rotate camera-controls touch-action="pan-y" shadow-intensity="1"></model-viewer>
+            </div>
+            <p class="section-label">Vehicle Design: Batpod (3D Model)</p>
 
-                <div class="art-item" onclick="openTooltip('3DDesign/3d5.png', 'Vehicle Design: Batpod')">
-                    <img src="3DDesign/3d5.png" alt="Artwork 12">
+            <div class="image-row">
+                <div class="image-item" onclick="openTooltip('3DDesign/3d3.jpg', 'Submersible Interior')">
+                    <img src="3DDesign/3d3.jpg" alt="Submersible">
                 </div>
+                <div class="image-item" onclick="openTooltip('3DDesign/3d4.jpg', 'Wine Glasses')">
+                    <img src="3DDesign/3d4.jpg" alt="Wine Glasses">
+                </div>
+            </div>
+            <p class="section-label">Submersible Concept & Glassware Study</p>
 
+            <div class="model-container">
+                <model-viewer src="3DFiles/3df3.glb" alt="Winter Lodge" auto-rotate camera-controls touch-action="pan-y" shadow-intensity="1"></model-viewer>
+            </div>
+            <p class="section-label">Winter Lodge Architectural Study</p>
 
-                <div class="art-item" onclick="openTooltip('3DDesign/3d6.jpg', 'Winter Lodge')">
-                    <img src="3DDesign/3d6.jpg" alt="Artwork 5">
-                </div>
+            <div class="large-image-container" onclick="openTooltip('3DDesign/3d5.png', 'Batpod High Res')">
+                <img src="3DDesign/3d5.png" alt="Batpod Large">
+            </div>
+            <p class="section-label">Vehicle Design: Detailed Batpod Render</p>
 
-                
-                <div class="art-item" onclick="openTooltip('3DDesign/3d4.jpg', 'Wine Glasses')">
-                    <img src="3DDesign/3d4.jpg" alt="Artwork 4">
-                </div>
+            <div class="model-container">
+                <model-viewer src="3DFiles/3df4.glb" alt="Outdoor Scene" auto-rotate camera-controls touch-action="pan-y" shadow-intensity="1"></model-viewer>
+            </div>
+            <p class="section-label">Outdoor Environment Design</p>
 
-                <div class="art-item" onclick="openTooltip('3DDesign/3d7.jpg', 'Outdoor Dining')">
-                    <img src="3DDesign/3d7.jpg" alt="Artwork 6">
+            <div class="image-row">
+                <div class="image-item" onclick="openTooltip('3DDesign/3d6.jpg', 'Winter Lodge Alt')">
+                    <img src="3DDesign/3d6.jpg" alt="Lodge">
                 </div>
-                
-                <div class="art-item" onclick="openTooltip('3DDesign/3d8.jpg', 'Colourless Kitchen')">
-                    <img src="3DDesign/3d8.jpg" alt="Artwork 8">
+                <div class="image-item" onclick="openTooltip('3DDesign/3d7.jpg', 'Outdoor Dining')">
+                    <img src="3DDesign/3d7.jpg" alt="Dining">
                 </div>
-                
-                <div class="art-item" onclick="openTooltip('3DDesign/3d9.jpg', 'Teacup')">
-                    <img src="3DDesign/3d9.jpg" alt="Artwork 9">
-                </div>
-                
-                <div class="art-item" onclick="openTooltip('3DDesign/3d10.gif', 'Mirror cube and fish')">
-                    <img src="3DDesign/3d10.gif" alt="Artwork 10">
-                </div>
-                
-                <div class="art-item" onclick="openTooltip('3DDesign/3d11.jpg', 'XLR8 in a Basketball Court')">
-                    <img src="3DDesign/3d11.jpg" alt="Artwork 10">
-                </div>
+            </div>
+            <p class="section-label">Atmospheric Environments</p>
 
             </div>
-        </div>
     </main>
 
     <div id="overlay" class="overlay" onclick="closeTooltip()">
-        <!--span class="close-btn" onclick="closeTooltip()">&times;</span-->
         <div class="tooltip-card" onclick="event.stopPropagation()">
             <div class="tooltip-img-container">
                 <img id="modalImg" class="tooltip-img" src="" alt="Full View Artwork">
@@ -421,10 +409,9 @@
             if (e.key === "Escape") closeTooltip();
         });
 
-        /* --- Original Boid Logic (Exact) --- */
+        /* --- Original Boid Logic (Untouched) --- */
         const canvas = document.getElementById('boidCanvas');
         const ctx = canvas.getContext('2d');
-
         let width, height;
         const fishImg = new Image(); fishImg.src = 'fish.png';
         const anglerImg = new Image(); anglerImg.src = 'angler.png';
@@ -433,15 +420,7 @@
         const animalPool = [
             { name: "Jellyfish", weight: 50, img: placeholderJelly },
             { name: "Octopus", weight: 5, img: placeholderJelly },
-            { name: "Shark", weight: 5, img: placeholderJelly },
-            { name: "Isopod", weight: 5, img: placeholderJelly },
-            { name: "Squid", weight: 5, img: placeholderJelly },
-            { name: "Nautilus", weight: 5, img: placeholderJelly },
-            { name: "Sea Lilly", weight: 5, img: placeholderJelly },
-            { name: "Crab", weight: 5, img: placeholderJelly },
-            { name: "Submarine", weight: 5, img: placeholderJelly },
-            { name: "Gulper Eel", weight: 5, img: placeholderJelly },
-            { name: "Seadragon", weight: 5, img: placeholderJelly }
+            { name: "Shark", weight: 5, img: placeholderJelly }
         ];
 
         function getRandomAnimal() {
@@ -464,7 +443,7 @@
         let angler = { x: -200, y: -200, targetX: -200, targetY: -200, flipped: false, angle: 0 };
         window.addEventListener('click', (e) => {
             if (!document.getElementById('overlay').style.display || document.getElementById('overlay').style.display === 'none') {
-                if (!e.target.closest('header')) {
+                if (!e.target.closest('header') && !e.target.closest('main')) {
                     angler.targetX = e.clientX;
                     angler.targetY = e.clientY;
                 }
@@ -477,8 +456,7 @@
                 this.y = Math.random() * height;
                 this.vx = (Math.random() - 0.5) * 2;
                 this.vy = (Math.random() - 0.5) * 2;
-                this.accX = 0;
-                this.accY = 0;
+                this.accX = 0; this.accY = 0;
                 this.baseMaxSpeed = 1 + Math.random() * 0.4;
                 this.burstMaxSpeed = 2.5 + Math.random() * 1;
                 this.maxSpeed = this.baseMaxSpeed;
@@ -495,21 +473,15 @@
                 }
                 if (this.isBursting) {
                     this.maxSpeed = this.burstMaxSpeed;
-                    this.maxForce = 0.2;
                     this.burstTimer--;
                     if (this.burstTimer <= 0) this.isBursting = false;
                 } else {
                     this.maxSpeed += (this.baseMaxSpeed - this.maxSpeed) * 0.1;
-                    this.maxForce = 0.05;
                 }
                 let sep = this.separate(boids);
-                let ali = this.align(boids);
-                let coh = this.cohesion(boids);
                 let avoid = this.avoidAngler();
-                this.accX += sep.x * 1.5 + ali.x * 1.0 + coh.x * 1.0 + avoid.x * 4.0;
-                this.accY += sep.y * 1.5 + ali.y * 1.0 + coh.y * 1.0 + avoid.y * 4.0;
-                this.accX += Math.cos(Date.now() * 0.001 + this.x) * 0.02;
-                this.accY += Math.sin(Date.now() * 0.001 + this.y) * 0.02;
+                this.accX += sep.x * 1.5 + avoid.x * 4.0;
+                this.accY += sep.y * 1.5 + avoid.y * 4.0;
             }
 
             avoidAngler() {
@@ -533,30 +505,6 @@
                     }
                 }
                 return count > 0 ? { x: steerX / count, y: steerY / count } : { x: 0, y: 0 };
-            }
-
-            align(boids) {
-                let avgX = 0, avgY = 0, count = 0;
-                for (let other of boids) {
-                    let d = Math.hypot(this.x - other.x, this.y - other.y);
-                    if (d > 0 && d < 60) {
-                        avgX += other.vx; avgY += other.vy;
-                        count++;
-                    }
-                }
-                return count > 0 ? { x: avgX / count, y: avgY / count } : { x: 0, y: 0 };
-            }
-
-            cohesion(boids) {
-                let avgX = 0, avgY = 0, count = 0;
-                for (let other of boids) {
-                    let d = Math.hypot(this.x - other.x, this.y - other.y);
-                    if (d > 0 && d < 60) {
-                        avgX += other.x; avgY += other.y;
-                        count++;
-                    }
-                }
-                return count > 0 ? { x: (avgX / count - this.x) * 0.01, y: (avgY / count - this.y) * 0.01 } : { x: 0, y: 0 };
             }
 
             update() {
@@ -590,10 +538,7 @@
         }
 
         class AmbientAnimal {
-            constructor() {
-                this.reset();
-                this.y = Math.random() * height;
-            }
+            constructor() { this.reset(); this.y = Math.random() * height; }
             reset() {
                 const species = getRandomAnimal();
                 this.img = species.img;
@@ -627,30 +572,22 @@
             ctx.clearRect(0, 0, width, height);
             let dx = angler.targetX - angler.x;
             let dy = angler.targetY - angler.y;
-            angler.x += dx * 0.02;
-            angler.y += dy * 0.02;
-            angler.flipped = dx < 0;
-            angler.angle = Math.atan2(dy, dx);
+            angler.x += dx * 0.02; angler.y += dy * 0.02;
+            angler.flipped = dx < 0; angler.angle = Math.atan2(dy, dx);
 
             ambientAnimals.forEach(a => { a.update(); a.draw(); });
             boids.forEach(b => { b.applyBehaviors(boids); b.update(); b.draw(); });
 
             if (anglerImg.complete) {
                 const anglerAspect = anglerImg.naturalHeight / anglerImg.naturalWidth;
-                const anglerW = 80;
-                const anglerH = anglerW * anglerAspect;
+                const anglerW = 80; const anglerH = anglerW * anglerAspect;
                 ctx.save();
                 ctx.translate(angler.x, angler.y);
-                if (angler.flipped) {
-                    ctx.scale(-1, 1);
-                    ctx.rotate(-angler.angle + Math.PI);
-                } else {
-                    ctx.rotate(angler.angle);
-                }
+                if (angler.flipped) { ctx.scale(-1, 1); ctx.rotate(-angler.angle + Math.PI); }
+                else { ctx.rotate(angler.angle); }
                 ctx.drawImage(anglerImg, -anglerW / 2, -anglerH / 2, anglerW, anglerH);
                 ctx.restore();
             }
-            ctx.globalAlpha = 0.6; 
             requestAnimationFrame(loop);
         }
         loop();

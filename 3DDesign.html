@@ -29,7 +29,7 @@
             user-select: none;
         }
 
-        /* --- Background Canvas --- */
+        /* --- Original Background Canvas Logic --- */
         #boidCanvas {
             position: fixed;
             top: 0;
@@ -40,7 +40,7 @@
             pointer-events: none;
         }
 
-        /* --- Header Styles --- */
+        /* --- Original Header Styles --- */
         header {
             position: fixed;
             top: 40px;
@@ -114,9 +114,9 @@
             color: #888;
         }
 
-        /* --- Restore Spacing and Grey Text --- */
+        /* --- RESTORED SPACING FOR HEADERS --- */
         main {
-            padding: 160px 5% 100px 5%;
+            padding: 180px 5% 100px 5%; /* Increased top padding to clear the fixed header */
             position: relative;
             z-index: 10;
         }
@@ -125,20 +125,20 @@
             font-size: 2.8em;
             letter-spacing: 0.15em;
             font-weight: 400;
-            margin: 0 0 10px 0; /* Reduced margin to fix displacement */
-            color: #1a1a1a;
+            margin: 0 0 10px 0; /* Tightened bottom margin */
+            color: #000;
             text-align: center;
         }
 
         .collaborators {
             font-size: 0.9em;
-            opacity: 0.6; /* Restored lower opacity */
-            margin: 0 0 60px 0; /* Clear space before first model */
-            color: #444; /* Original grey */
+            opacity: 0.7;
+            margin: 0 0 60px 0; /* Re-established distance from the first content piece */
+            color: #444;
             text-align: center;
         }
 
-        /* --- Layout System --- */
+        /* --- LAYOUT SYSTEM --- */
         .work-container {
             max-width: 1100px;
             margin: 0 auto;
@@ -216,14 +216,13 @@
             object-fit: cover;
         }
 
-        /* Original Label Styling (Grey) */
         .item-label {
-            font-size: 0.9em;
-            color: #444;
-            letter-spacing: 0.1em;
+            font-size: 1em;
+            color: #1a1a1a;
+            letter-spacing: 0.08em;
             margin: 0;
-            font-weight: 400;
-            opacity: 0.7;
+            font-weight: 450;
+            opacity: 0.9;
         }
 
         /* --- Tooltip Styles --- */
@@ -291,6 +290,7 @@
             .image-row { flex-direction: column; gap: 40px; }
             .header-left h1 { font-size: 1.2em; }
             h2 { font-size: 2.2em; }
+            main { padding-top: 140px; }
         }
     </style>
 </head>
@@ -317,10 +317,8 @@
 
     <main>
         <div class="work-container">
-            <div>
-                <h2>3D Design</h2>
-                <p class="collaborators">Assets modelled and textured in 3ds Max and Blender</p>
-            </div>
+            <h2>3D Design</h2>
+            <p class="collaborators">Assets modelled and textured in 3ds Max and Blender</p>
 
             <div class="model-section">
                 <div class="model-container">
@@ -342,7 +340,7 @@
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/3df2.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/saarfrau.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">Girl wearing the Saarland University Mascot Hat</p>
             </div>
@@ -374,7 +372,7 @@
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/3df4.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/tintenhund.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">Dogtopus (Unused Outfit from the Flocking Simulator)</p>
             </div>
@@ -392,7 +390,7 @@
             
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/3df4.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/trix.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">Triceratops</p>
             </div>
@@ -447,9 +445,10 @@
             if (e.key === "Escape") closeTooltip();
         });
 
-        /* --- Boid Logic --- */
+        /* --- Original Boid Logic --- */
         const canvas = document.getElementById('boidCanvas');
         const ctx = canvas.getContext('2d');
+
         let width, height;
         const fishImg = new Image(); fishImg.src = 'fish.png';
         const anglerImg = new Image(); anglerImg.src = 'angler.png';

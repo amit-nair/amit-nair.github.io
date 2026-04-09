@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@100..900&display=swap" rel="stylesheet">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
-        /* --- Original HTML/Body Logic --- */
+        /* --- Layout & Core Styles --- */
         html {
             scroll-behavior: smooth;
         }
@@ -29,7 +29,6 @@
             user-select: none;
         }
 
-        /* --- Original Background Canvas Logic --- */
         #boidCanvas {
             position: fixed;
             top: 0;
@@ -40,7 +39,6 @@
             pointer-events: none;
         }
 
-        /* --- Original Header Styles --- */
         header {
             position: fixed;
             top: 40px;
@@ -114,9 +112,8 @@
             color: #888;
         }
 
-        /* --- RESTORED SPACING FOR HEADERS --- */
         main {
-            padding: 180px 5% 100px 5%; /* Increased top padding to clear the fixed header */
+            padding: 180px 5% 100px 5%;
             position: relative;
             z-index: 10;
         }
@@ -125,7 +122,7 @@
             font-size: 2.8em;
             letter-spacing: 0.15em;
             font-weight: 400;
-            margin: 0 0 10px 0; /* Tightened bottom margin */
+            margin: 0 0 10px 0;
             color: #000;
             text-align: center;
         }
@@ -133,12 +130,11 @@
         .collaborators {
             font-size: 0.9em;
             opacity: 0.7;
-            margin: 0 0 60px 0; /* Re-established distance from the first content piece */
+            margin: 0 0 60px 0;
             color: #444;
             text-align: center;
         }
 
-        /* --- LAYOUT SYSTEM --- */
         .work-container {
             max-width: 1100px;
             margin: 0 auto;
@@ -225,7 +221,7 @@
             opacity: 0.9;
         }
 
-        /* --- Tooltip Styles --- */
+        /* --- Overlay/Tooltip --- */
         .overlay {
             position: fixed;
             top: 0; left: 0;
@@ -239,7 +235,6 @@
             -webkit-backdrop-filter: blur(20px);
             opacity: 0;
             transition: opacity 0.3s ease;
-            box-sizing: border-box;
         }
 
         .tooltip-card {
@@ -264,7 +259,6 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            min-height: 0;
         }
 
         .tooltip-img {
@@ -282,7 +276,6 @@
             font-weight: 300;
             margin: 0;
             background: #ffffff;
-            overflow-y: auto;
             border-top: 1px solid rgba(0,0,0,0.05);
         }
 
@@ -322,7 +315,7 @@
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/mantella.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/mantella.glb" alt="Golden Mantella" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">Golden Mantella</p>
             </div>
@@ -340,7 +333,7 @@
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/saarfrau.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/saarfrau.glb" alt="Saarland Mascot Hat" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">Girl wearing the Saarland University Mascot Hat</p>
             </div>
@@ -358,21 +351,21 @@
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="titan.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="titan.glb" alt="OceanGate Titan Submersible" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">OceanGate Titan Submersible</p>
             </div>
 
-            <div class="large-image-item" onclick="openTooltip('3DDesign/3d3.jpg', 'OceanGate Titan Submersible')">
+            <div class="large-image-item" onclick="openTooltip('3DDesign/3d3.jpg', 'OceanGate Titan Submersible (Rendered)')">
                 <div class="large-img-frame">
-                    <img src="3DDesign/3d3.jpg" alt="OceanGate Titan Submersible">
+                    <img src="3DDesign/3d3.jpg" alt="OceanGate Titan Submersible Render">
                 </div>
                 <p class="item-label">OceanGate Titan Submersible (Rendered)</p>
             </div>
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/tintenhund.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/tintenhund.glb" alt="Dogtopus" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">Dogtopus (Unused Outfit from the Flocking Simulator)</p>
             </div>
@@ -390,7 +383,7 @@
             
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/trix.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/trix.glb" alt="Triceratops" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">Triceratops</p>
             </div>
@@ -400,7 +393,7 @@
                     <div class="img-frame"><img src="3DDesign/3d5.png" alt="Batpod"></div>
                     <p class="item-label">Vehicle Design: Batpod</p>
                 </div>
-                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d11.jpg', 'XLR8 in a Basketball Court')">
+                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d11.jpg', 'XLR8 Basketball Court')">
                     <div class="img-frame"><img src="3DDesign/3d11.jpg" alt="XLR8"></div>
                     <p class="item-label">XLR8 Basketball Court</p>
                 </div>
@@ -419,7 +412,7 @@
     </div>
 
     <script>
-        /* --- Tooltip Functionality --- */
+        /* --- Overlay Interaction --- */
         function openTooltip(imgSrc, description) {
             document.getElementById('modalImg').src = imgSrc;
             document.getElementById('tip-desc').innerText = description;
@@ -445,7 +438,7 @@
             if (e.key === "Escape") closeTooltip();
         });
 
-        /* --- Original Boid Logic --- */
+        /* --- Background Animation (Boids) --- */
         const canvas = document.getElementById('boidCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -456,16 +449,7 @@
 
         const animalPool = [
             { name: "Jellyfish", weight: 50, img: placeholderJelly },
-            { name: "Octopus", weight: 5, img: placeholderJelly },
-            { name: "Shark", weight: 5, img: placeholderJelly },
-            { name: "Isopod", weight: 5, img: placeholderJelly },
-            { name: "Squid", weight: 5, img: placeholderJelly },
-            { name: "Nautilus", weight: 5, img: placeholderJelly },
-            { name: "Sea Lilly", weight: 5, img: placeholderJelly },
-            { name: "Crab", weight: 5, img: placeholderJelly },
-            { name: "Submarine", weight: 5, img: placeholderJelly },
-            { name: "Gulper Eel", weight: 5, img: placeholderJelly },
-            { name: "Seadragon", weight: 5, img: placeholderJelly }
+            { name: "Octopus", weight: 5, img: placeholderJelly }
         ];
 
         function getRandomAnimal() {
@@ -674,7 +658,6 @@
                 ctx.drawImage(anglerImg, -anglerW / 2, -anglerH / 2, anglerW, anglerH);
                 ctx.restore();
             }
-            ctx.globalAlpha = 0.6; 
             requestAnimationFrame(loop);
         }
         loop();

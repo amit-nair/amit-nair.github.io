@@ -13,7 +13,10 @@
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
         /* --- Original HTML/Body Logic --- */
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
             font-family: 'Jost', sans-serif;
@@ -29,15 +32,20 @@
         /* --- Original Background Canvas Logic --- */
         #boidCanvas {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
             pointer-events: none;
         }
 
+        /* --- Original Header Styles --- */
         header {
             position: fixed;
-            top: 40px; left: 5%; right: 5%;
+            top: 40px;
+            left: 5%;
+            right: 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -46,21 +54,71 @@
             pointer-events: auto;
         }
 
-        .header-left { display: flex; align-items: center; gap: 20px; }
-        .header-left a { display: flex; align-items: center; transition: opacity 0.3s ease; text-decoration: none; }
-        .header-left a:hover { opacity: 0.8; }
-        .profile-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 1px solid #ddd; cursor: pointer; }
-        .name-container { display: flex; flex-direction: column; }
-        .header-left h1 { margin: 0; font-size: 1.6em; letter-spacing: 0.15em; font-weight: 370; color: #000; }
-        .header-left p { margin: 2px 0 0; font-size: 0.9em; opacity: 0.7; letter-spacing: 0.2em; font-weight: 430; color: #444; }
-        .header-right a { color: #1a1a1a; margin-left: 25px; font-size: 1.3em; text-decoration: none; transition: color 0.3s ease; }
-        .header-right a:hover { color: #888; }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-left a {
+            display: flex;
+            align-items: center;
+            transition: opacity 0.3s ease;
+            text-decoration: none;
+        }
+
+        .header-left a:hover {
+            opacity: 0.8;
+        }
+
+        .profile-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .name-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-left h1 {
+            margin: 0;
+            font-size: 1.6em;
+            letter-spacing: 0.15em;
+            font-weight: 370;
+            color: #000;
+        }
+
+        .header-left p {
+            margin: 2px 0 0;
+            font-size: 0.9em;
+            opacity: 0.7;
+            letter-spacing: 0.2em;
+            font-weight: 430;
+            color: #444;
+        }
+
+        .header-right a {
+            color: #1a1a1a;
+            margin-left: 25px;
+            font-size: 1.3em;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .header-right a:hover {
+            color: #888;
+        }
 
         h2 {
             font-size: 2.8em;
             letter-spacing: 0.15em;
             font-weight: 400;
-            margin-bottom: 10px; /* Tightened */
+            margin-bottom: 20px;
             color: #000;
             text-align: center;
             margin-top: 0;
@@ -69,20 +127,24 @@
         .collaborators {
             font-size: 0.9em;
             opacity: 0.7;
-            margin-bottom: 40px; /* Tightened spacing to content */
+            margin-bottom: 30px;
             color: #444;
             text-align: center;
         }
 
-        main { padding: 160px 5% 100px 5%; position: relative; z-index: 10; }
+        main {
+            padding: 160px 5% 100px 5%;
+            position: relative;
+            z-index: 10;
+        }
 
-        /* --- LAYOUT SYSTEM --- */
+        /* --- RESTORED ORIGINAL LAYOUT --- */
         .work-container {
             max-width: 1100px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 50px; /* Reduced gap between rows */
+            gap: 40px; /* Restored original tight spacing */
         }
 
         .model-section { width: 100%; }
@@ -92,7 +154,7 @@
             aspect-ratio: 16 / 9;
             min-height: 400px;
             max-height: 50vh;
-            margin-bottom: 10px; /* Tightened */
+            margin-bottom: 15px;
             border-radius: 15px;
             overflow: hidden;
             touch-action: none;
@@ -100,10 +162,25 @@
             border: 1px solid rgba(0,0,0,0.05);
         }
 
-        model-viewer { width: 100%; height: 100%; --poster-color: transparent; outline: none; }
+        model-viewer {
+            width: 100%;
+            height: 100%;
+            --poster-color: transparent;
+            outline: none;
+        }
 
-        .image-row { display: flex; gap: 25px; width: 100%; }
-        .image-pair-item { flex: 1; cursor: pointer; transition: transform 0.3s ease; }
+        .image-row {
+            display: flex;
+            gap: 25px;
+            width: 100%;
+        }
+
+        .image-pair-item {
+            flex: 1;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
         .image-pair-item:hover { transform: translateY(-5px); }
 
         .img-frame {
@@ -113,28 +190,39 @@
             overflow: hidden;
             background: rgba(0,0,0,0.03);
             border: 1px solid rgba(0,0,0,0.05);
-            margin-bottom: 10px; /* Tightened */
+            margin-bottom: 12px;
         }
 
-        .img-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            display: block;
+        }
 
         .large-image-item { width: 100%; cursor: pointer; }
+
         .large-img-frame {
             width: 100%;
             aspect-ratio: 16 / 9;
             border-radius: 15px;
             overflow: hidden;
-            margin-bottom: 10px; /* Tightened */
+            margin-bottom: 12px;
         }
-        .large-img-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Labels: Darker and Clear */
+        .large-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* DARKER LABELS - NO OPACITY */
         .item-label {
-            font-size: 0.95em;
-            color: #111; /* Darker */
-            letter-spacing: 0.05em;
+            font-size: 1em;
+            color: #1a1a1a; 
+            letter-spacing: 0.08em;
             margin: 0;
-            font-weight: 500; /* Bolder */
+            font-weight: 450;
         }
 
         /* --- Tooltip Styles --- */
@@ -170,8 +258,22 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .tooltip-img-container { flex: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; min-height: 0; }
-        .tooltip-img { max-width: 100%; max-height: 70vh; object-fit: contain; display: block; }
+        .tooltip-img-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .tooltip-img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            display: block;
+        }
+
         .tooltip-text {
             padding: 25px 30px;
             font-size: 1.05em;
@@ -185,7 +287,7 @@
         }
 
         @media (max-width: 768px) {
-            .image-row { flex-direction: column; gap: 30px; }
+            .image-row { flex-direction: column; gap: 40px; }
             .header-left h1 { font-size: 1.2em; }
             h2 { font-size: 2.2em; }
         }
@@ -193,6 +295,7 @@
 </head>
 
 <body>
+
     <canvas id="boidCanvas"></canvas>
 
     <header>
@@ -218,7 +321,7 @@
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/3df1.glb" alt="Mantella Frog" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/3df1.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">Mantella Frog</p>
             </div>
@@ -236,30 +339,30 @@
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/3df2.glb" alt="Mascot Hat" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/3df2.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
-                <p class="item-label">Saarland University Mascot Hat</p>
+                <p class="item-label">Girl wearing the Saarland University Mascot Hat</p>
             </div>
 
-            <div class="image-row">                
-                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d4.jpg', 'Wine Glasses')">
-                    <div class="img-frame"><img src="3DDesign/3d4.jpg" alt="Wine Glasses"></div>
-                    <p class="item-label">Wine Glasses</p>
-                </div>
+            <div class="image-row">
                 <div class="image-pair-item" onclick="openTooltip('3DDesign/3d6.jpg', 'Winter Lodge')">
                     <div class="img-frame"><img src="3DDesign/3d6.jpg" alt="Winter Lodge"></div>
                     <p class="item-label">Winter Lodge</p>
+                </div>
+                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d4.jpg', 'Wine Glasses')">
+                    <div class="img-frame"><img src="3DDesign/3d4.jpg" alt="Wine Glasses"></div>
+                    <p class="item-label">Wine Glasses</p>
                 </div>
             </div>
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/3df3.glb" alt="OceanGate Titan" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="titan.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">OceanGate Titan Submersible</p>
             </div>
 
-            <div class="large-image-item" onclick="openTooltip('3DDesign/3d3.jpg', 'OceanGate Titan Submersible Render')">
+            <div class="large-image-item" onclick="openTooltip('3DDesign/3d3.jpg', 'OceanGate Titan Submersible')">
                 <div class="large-img-frame">
                     <img src="3DDesign/3d3.jpg" alt="OceanGate Titan Submersible">
                 </div>
@@ -268,9 +371,9 @@
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/3df4.glb" alt="Dogtopus" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/3df4.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
-                <p class="item-label">Dogtopus (Unused Outfit)</p>
+                <p class="item-label">Dogtopus (Unused Outfit for the Flocking Simulator)</p>
             </div>
 
             <div class="image-row">
@@ -284,6 +387,13 @@
                 </div>
             </div>
 
+            <div class="model-section">
+                <div class="model-container">
+                    <model-viewer src="3DFiles/3df4.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                </div>
+                <p class="item-label">Triceratops</p>
+            </div>
+
             <div class="image-row">
                 <div class="image-pair-item" onclick="openTooltip('3DDesign/3d5.png', 'Vehicle Design: Batpod')">
                     <div class="img-frame"><img src="3DDesign/3d5.png" alt="Batpod"></div>
@@ -294,6 +404,7 @@
                     <p class="item-label">XLR8 Basketball Court</p>
                 </div>
             </div>
+
         </div>
     </main>
 
@@ -336,6 +447,7 @@
         /* --- Original Boid Logic (RESTORED EXACTLY) --- */
         const canvas = document.getElementById('boidCanvas');
         const ctx = canvas.getContext('2d');
+
         let width, height;
         const fishImg = new Image(); fishImg.src = 'fish.png';
         const anglerImg = new Image(); anglerImg.src = 'angler.png';
@@ -501,7 +613,10 @@
         }
 
         class AmbientAnimal {
-            constructor() { this.reset(); this.y = Math.random() * height; }
+            constructor() {
+                this.reset();
+                this.y = Math.random() * height;
+            }
             reset() {
                 const species = getRandomAnimal();
                 this.img = species.img;
@@ -539,16 +654,22 @@
             angler.y += dy * 0.02;
             angler.flipped = dx < 0;
             angler.angle = Math.atan2(dy, dx);
+
             ambientAnimals.forEach(a => { a.update(); a.draw(); });
             boids.forEach(b => { b.applyBehaviors(boids); b.update(); b.draw(); });
+
             if (anglerImg.complete) {
                 const anglerAspect = anglerImg.naturalHeight / anglerImg.naturalWidth;
                 const anglerW = 80;
                 const anglerH = anglerW * anglerAspect;
                 ctx.save();
                 ctx.translate(angler.x, angler.y);
-                if (angler.flipped) { ctx.scale(-1, 1); ctx.rotate(-angler.angle + Math.PI); } 
-                else { ctx.rotate(angler.angle); }
+                if (angler.flipped) {
+                    ctx.scale(-1, 1);
+                    ctx.rotate(-angler.angle + Math.PI);
+                } else {
+                    ctx.rotate(angler.angle);
+                }
                 ctx.drawImage(anglerImg, -anglerW / 2, -anglerH / 2, anglerW, anglerH);
                 ctx.restore();
             }

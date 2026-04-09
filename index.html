@@ -225,59 +225,62 @@
 
         .music-grid {
             display: flex;
-            gap: 10px;
+            flex-direction: row !important; /* Forces row even on mobile */
+            gap: 15px;
             width: 100%;
-            overflow-x: auto; /* Allows swiping on mobile */
-            padding-bottom: 15px; /* Space for the scrollbar */
-            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iPhones */
+            overflow-x: auto; /* Horizontal swipe for mobile */
+            padding-bottom: 20px;
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
         }
         
         .music-frame {
-            flex: 0 0 80%; /* Each player takes up 80% of the screen width on mobile */
-            min-width: 250px;
+            flex: 0 0 85%; /* Shows most of one player + a peek of the next */
+            scroll-snap-align: center;
             border-radius: 12px;
             overflow: hidden;
-        }
-
-        .video-container iframe {
-            border: none;
-            display: block;
+            background: #000;
         }
         
-        /* Desktop override: Make them share the space equally */
+        .video-frame {
+            width: 100%;
+            aspect-ratio: 16 / 9; 
+            min-height: 400px; 
+            max-height: 50vh;  
+            margin: 20px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #000;
+        }
+        
         @media (min-width: 769px) {
             .music-grid {
                 overflow-x: hidden;
                 justify-content: center;
             }
             .music-frame {
-                flex: 1; /* Each takes 1/3 of the row */
+                flex: 1; 
                 max-width: 300px;
             }
-        }
-        
-        /* Responsive fix for smaller screens */
-        @media (max-width: 900px) {
-            .music-grid {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .music-frame {
+            .video-frame {
                 width: 100%;
-                max-width: 400px;
             }
         }
         
-        /* 4. Fine-tuning for Mobile */
+        @media (max-width: 768px) {
+            .video-frame {
+                min-height: 300px;
+                aspect-ratio: 1 / 1; 
+            }
+        }
+        
         @media (max-width: 768px) {
             .model-container {
-                min-height: 300px; /* Smaller minimum for phones */
-                aspect-ratio: 1 / 1; /* Square is usually better for mobile models */
+                min-height: 300px;
+                aspect-ratio: 1 / 1; 
             }
         }
 
-        /* Mobile Fixes */
         @media (max-width: 768px) {
             .side-navigation {
                 display: none;
@@ -311,13 +314,11 @@
             .section-content {
                 padding: 20px;
                 width: 85%;
-                /* Slight upward shift to visually balance the header space */
                 transform: translateY(10px);
             }
 
             .content-section.active .section-content {
                 transform: translateY(-20px);
-                /* Adjust final position for mobile */
             }
         }
     </style>
@@ -405,9 +406,9 @@
         <section id="section-5" class="content-section">
             <div class="section-content">
                 <h2>Game Development</h2>
-                <p class="collaborators">Interactive virtual experiences built in Unity</p>
+                <p class="collaborators">Interactive virtual experiences built using Unity</p>
         
-                <div class="video-container" style="width: 100%; margin: 20px auto; border-radius: 15px; overflow: hidden; background: #000; aspect-ratio: 16 / 9;">
+                <div class="video-frame">
                     <iframe 
                         src="https://drive.google.com/file/d/1D0KX2wOpTYVOow5C_IGCSOvLRIU0Ub26/preview" 
                         width="100%" 

@@ -275,6 +275,28 @@
             letter-spacing: 0.08em;
             border-left: 2px solid rgba(255, 255, 255, 0.3);
         }
+
+        .illustration-container {
+            width: 100%;
+            max-width: 900px; /* Optional: limits how wide it gets on massive monitors */
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .illustration-img {
+            width: auto;
+            max-width: 100%;
+            height: auto;
+            /* Match the 3D viewer/Video height constraints */
+            min-height: 300px; 
+            max-height: 50vh; 
+            
+            border-radius: 15px;
+            object-fit: contain; /* Ensures the whole image fits without cropping */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
         
         @media (min-width: 769px) {
             .music-grid {
@@ -462,7 +484,15 @@
         <section id="section-7" class="content-section">
             <div class="section-content">
                 <h2>Illustration</h2>
-                <p class="collaborators"> Let's collaborate. Reach out via email or LinkedIn.</p>
+                <p class="collaborators">Digital art and graphic design</p>
+        
+                <div class="illustration-container">
+                    <img src="dino.jpg" alt="Illustration" class="illustration-img">
+                </div>
+        
+                <a href="#" target="_blank" class="project-button">
+                    <i class="fa-solid fa-palette" style="margin-right: 10px;"></i> MORE
+                </a>
             </div>
         </section>
 

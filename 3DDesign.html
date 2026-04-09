@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@100..900&display=swap" rel="stylesheet">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
-        /* --- Layout & Core Styles --- */
         html {
             scroll-behavior: smooth;
         }
@@ -118,6 +117,7 @@
             z-index: 10;
         }
 
+        /* --- RESTORED ORIGINAL H2 AND COLLABORATORS STYLING --- */
         h2 {
             font-size: 2.8em;
             letter-spacing: 0.15em;
@@ -133,6 +133,8 @@
             margin: 0 0 60px 0;
             color: #444;
             text-align: center;
+            letter-spacing: 0.1em;
+            text-transform: none;
         }
 
         .work-container {
@@ -221,7 +223,6 @@
             opacity: 0.9;
         }
 
-        /* --- Overlay/Tooltip --- */
         .overlay {
             position: fixed;
             top: 0; left: 0;
@@ -235,6 +236,7 @@
             -webkit-backdrop-filter: blur(20px);
             opacity: 0;
             transition: opacity 0.3s ease;
+            box-sizing: border-box;
         }
 
         .tooltip-card {
@@ -259,6 +261,7 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            min-height: 0;
         }
 
         .tooltip-img {
@@ -276,6 +279,7 @@
             font-weight: 300;
             margin: 0;
             background: #ffffff;
+            overflow-y: auto;
             border-top: 1px solid rgba(0,0,0,0.05);
         }
 
@@ -315,7 +319,7 @@
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/mantella.glb" alt="Golden Mantella" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/mantella.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">Golden Mantella</p>
             </div>
@@ -333,7 +337,7 @@
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/saarfrau.glb" alt="Saarland Mascot Hat" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/saarfrau.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">Girl wearing the Saarland University Mascot Hat</p>
             </div>
@@ -351,21 +355,21 @@
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="titan.glb" alt="OceanGate Titan Submersible" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="titan.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">OceanGate Titan Submersible</p>
             </div>
 
-            <div class="large-image-item" onclick="openTooltip('3DDesign/3d3.jpg', 'OceanGate Titan Submersible (Rendered)')">
+            <div class="large-image-item" onclick="openTooltip('3DDesign/3d3.jpg', 'OceanGate Titan Submersible')">
                 <div class="large-img-frame">
-                    <img src="3DDesign/3d3.jpg" alt="OceanGate Titan Submersible Render">
+                    <img src="3DDesign/3d3.jpg" alt="OceanGate Titan Submersible">
                 </div>
                 <p class="item-label">OceanGate Titan Submersible (Rendered)</p>
             </div>
 
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/tintenhund.glb" alt="Dogtopus" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/tintenhund.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">Dogtopus (Unused Outfit from the Flocking Simulator)</p>
             </div>
@@ -383,7 +387,7 @@
             
             <div class="model-section">
                 <div class="model-container">
-                    <model-viewer src="3DFiles/trix.glb" alt="Triceratops" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    <model-viewer src="3DFiles/trix.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
                 </div>
                 <p class="item-label">Triceratops</p>
             </div>
@@ -393,7 +397,7 @@
                     <div class="img-frame"><img src="3DDesign/3d5.png" alt="Batpod"></div>
                     <p class="item-label">Vehicle Design: Batpod</p>
                 </div>
-                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d11.jpg', 'XLR8 Basketball Court')">
+                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d11.jpg', 'XLR8 in a Basketball Court')">
                     <div class="img-frame"><img src="3DDesign/3d11.jpg" alt="XLR8"></div>
                     <p class="item-label">XLR8 Basketball Court</p>
                 </div>
@@ -412,7 +416,6 @@
     </div>
 
     <script>
-        /* --- Overlay Interaction --- */
         function openTooltip(imgSrc, description) {
             document.getElementById('modalImg').src = imgSrc;
             document.getElementById('tip-desc').innerText = description;
@@ -438,10 +441,8 @@
             if (e.key === "Escape") closeTooltip();
         });
 
-        /* --- Background Animation (Boids) --- */
         const canvas = document.getElementById('boidCanvas');
         const ctx = canvas.getContext('2d');
-
         let width, height;
         const fishImg = new Image(); fishImg.src = 'fish.png';
         const anglerImg = new Image(); anglerImg.src = 'angler.png';
@@ -449,7 +450,8 @@
 
         const animalPool = [
             { name: "Jellyfish", weight: 50, img: placeholderJelly },
-            { name: "Octopus", weight: 5, img: placeholderJelly }
+            { name: "Octopus", weight: 5, img: placeholderJelly },
+            { name: "Shark", weight: 5, img: placeholderJelly }
         ];
 
         function getRandomAnimal() {
@@ -516,8 +518,6 @@
                 let avoid = this.avoidAngler();
                 this.accX += sep.x * 1.5 + ali.x * 1.0 + coh.x * 1.0 + avoid.x * 4.0;
                 this.accY += sep.y * 1.5 + ali.y * 1.0 + coh.y * 1.0 + avoid.y * 4.0;
-                this.accX += Math.cos(Date.now() * 0.001 + this.x) * 0.02;
-                this.accY += Math.sin(Date.now() * 0.001 + this.y) * 0.02;
             }
 
             avoidAngler() {
@@ -639,10 +639,8 @@
             angler.y += dy * 0.02;
             angler.flipped = dx < 0;
             angler.angle = Math.atan2(dy, dx);
-
             ambientAnimals.forEach(a => { a.update(); a.draw(); });
             boids.forEach(b => { b.applyBehaviors(boids); b.update(); b.draw(); });
-
             if (anglerImg.complete) {
                 const anglerAspect = anglerImg.naturalHeight / anglerImg.naturalWidth;
                 const anglerW = 80;

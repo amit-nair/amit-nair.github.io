@@ -114,7 +114,6 @@
             color: #888;
         }
 
-        /* --- Updated Layout Styles for Proper Proportions --- */
         main {
             padding: 160px 5% 100px 5%;
             position: relative;
@@ -143,7 +142,6 @@
         .content-wrapper {
             display: flex;
             gap: 40px;
-            /* 2. Vertical alignment for entire content section */
             align-items: center; 
         }
 
@@ -151,12 +149,11 @@
             display: flex;
             justify-content: space-between;
             gap: 20px;
-            /* FLEX CONTROL: Allow images to dictate size, prevent stretching */
             flex: 0 1 auto; 
         }
 
         .gif-card {
-            flex: 0 1 auto; /* Prevents cards from growing/shrinking unevenly */
+            flex: 0 1 auto;
             text-align: center;
         }
 
@@ -168,9 +165,8 @@
             background: #f9f9f9;
             display: block;
             margin: 0 auto 10px auto;
-            
-            aspect-ratio: auto; /* Uses CP1's natural shape */
-            object-fit: cover; /* Subtle cropping ensures images fill the calculated space without distortion */
+            aspect-ratio: auto;
+            object-fit: cover;
         }
 
         .gif-label {
@@ -182,7 +178,6 @@
 
         .text-section {
             flex: 1 1 auto; 
-            min-width: 300px; /* Ensure text doesn't collapse too much */
             background: rgba(255, 255, 255, 0.8);
             padding: 30px;
             border-radius: 15px;
@@ -281,7 +276,6 @@
     </main>
 
     <script>
-        /* --- Original Boid Logic (Exact) --- */
         const canvas = document.getElementById('boidCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -322,8 +316,13 @@
         resize();
 
         let angler = { x: -200, y: -200, targetX: -200, targetY: -200, flipped: false, angle: 0 };
+        
         window.addEventListener('click', (e) => {
-            if (!document.getElementById('overlay').style.display || document.getElementById('overlay').style.display === 'none') {
+            // Subtle Fix: Check if overlay exists before accessing style
+            const overlay = document.getElementById('overlay');
+            const isOverlayVisible = overlay && (overlay.style.display !== 'none' && overlay.style.display !== '');
+            
+            if (!isOverlayVisible) {
                 if (!e.target.closest('header')) {
                     angler.targetX = e.clientX;
                     angler.targetY = e.clientY;
@@ -440,6 +439,7 @@
                 const aspectRatio = fishImg.naturalHeight / fishImg.naturalWidth;
                 const h = this.width * aspectRatio;
                 ctx.save();
+                ctx.globalAlpha = 1.0; // Reset alpha for main boids
                 ctx.translate(this.x, this.y);
                 let angle = Math.atan2(this.vy, this.vx);
                 ctx.rotate(angle);
@@ -485,6 +485,7 @@
 
         function loop() {
             ctx.clearRect(0, 0, width, height);
+            
             let dx = angler.targetX - angler.x;
             let dy = angler.targetY - angler.y;
             angler.x += dx * 0.02;
@@ -500,6 +501,7 @@
                 const anglerW = 80;
                 const anglerH = anglerW * anglerAspect;
                 ctx.save();
+                ctx.globalAlpha = 0.6; // Subtle transparency for angler
                 ctx.translate(angler.x, angler.y);
                 if (angler.flipped) {
                     ctx.scale(-1, 1);
@@ -510,7 +512,7 @@
                 ctx.drawImage(anglerImg, -anglerW / 2, -anglerH / 2, anglerW, anglerH);
                 ctx.restore();
             }
-            ctx.globalAlpha = 0.6; 
+
             requestAnimationFrame(loop);
         }
         loop();

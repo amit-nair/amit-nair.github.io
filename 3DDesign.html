@@ -129,24 +129,31 @@
         .collaborators {
             font-size: 0.9em;
             opacity: 0.7;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
             color: #444;
         }
 
         .work-container {
             max-width: 1100px;
             margin: 0 auto;
+        }
+
+        .portfolio-grid {
+            display: flex;
+            flex-direction: column;
             gap: 80px; 
         }
 
-        .model-section { width: 100%; }
+        .portfolio-item {
+            width: 100%;
+        }
 
         .model-container {
             width: 100%;
             aspect-ratio: 16 / 9;
             min-height: 400px;
             max-height: 50vh;
-            margin-bottom: 15px;
+            margin-bottom: 20px; 
             border-radius: 15px;
             overflow: hidden;
             touch-action: none;
@@ -182,7 +189,7 @@
             overflow: hidden;
             background: rgba(0,0,0,0.03);
             border: 1px solid rgba(0,0,0,0.05);
-            margin-bottom: 12px;
+            margin-bottom: 15px; 
         }
 
         .img-frame img {
@@ -199,7 +206,7 @@
             aspect-ratio: 16 / 9;
             border-radius: 15px;
             overflow: hidden;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         .large-img-frame img {
@@ -282,6 +289,7 @@
             .header-left h1 { font-size: 1.2em; }
             h2 { font-size: 2.2em; }
             main { padding-top: 140px; }
+            .portfolio-grid { gap: 60px; }
         }
     </style>
 </head>
@@ -311,93 +319,105 @@
             <h2>3D Design</h2>
             <p class="collaborators" style="text-align: center">Assets modelled and textured in 3ds Max and Blender</p>
 
-            <div class="model-section">
-                <div class="model-container">
-                    <model-viewer src="3DFiles/mantella.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+            <div class="portfolio-grid">
+                
+                <div class="portfolio-item">
+                    <div class="model-container">
+                        <model-viewer src="3DFiles/mantella.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    </div>
+                    <p class="item-label">Golden Mantella</p>
                 </div>
-                <p class="item-label">Golden Mantella</p>
-            </div>
 
-            <div class="image-row">
-                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d1.jpg', 'Android Fight')">
-                    <div class="img-frame"><img src="3DDesign/3d1.jpg" alt="Android Fight"></div>
-                    <p class="item-label">Android Fight</p>
+                <div class="portfolio-item">
+                    <div class="image-row">
+                        <div class="image-pair-item" onclick="openTooltip('3DDesign/3d1.jpg', 'Android Fight')">
+                            <div class="img-frame"><img src="3DDesign/3d1.jpg" alt="Android Fight"></div>
+                            <p class="item-label">Android Fight</p>
+                        </div>
+                        <div class="image-pair-item" onclick="openTooltip('3DDesign/3d2.jpg', 'Mountainside Living')">
+                            <div class="img-frame"><img src="3DDesign/3d2.jpg" alt="Mountainside Living"></div>
+                            <p class="item-label">Mountainside Living</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d2.jpg', 'Mountainside Living')">
-                    <div class="img-frame"><img src="3DDesign/3d2.jpg" alt="Mountainside Living"></div>
-                    <p class="item-label">Mountainside Living</p>
-                </div>
-            </div>
 
-            <div class="model-section">
-                <div class="model-container">
-                    <model-viewer src="3DFiles/saarfrau.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                <div class="portfolio-item">
+                    <div class="model-container">
+                        <model-viewer src="3DFiles/saarfrau.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    </div>
+                    <p class="item-label">Girl wearing Saarland University Merch</p>
                 </div>
-                <p class="item-label">Girl wearing Saarland University Merch</p>
-            </div>
 
-            <div class="image-row">
-                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d6.jpg', 'Winter Lodge')">
-                    <div class="img-frame"><img src="3DDesign/3d6.jpg" alt="Winter Lodge"></div>
-                    <p class="item-label">Winter Lodge</p>
+                <div class="portfolio-item">
+                    <div class="image-row">
+                        <div class="image-pair-item" onclick="openTooltip('3DDesign/3d6.jpg', 'Winter Lodge')">
+                            <div class="img-frame"><img src="3DDesign/3d6.jpg" alt="Winter Lodge"></div>
+                            <p class="item-label">Winter Lodge</p>
+                        </div>
+                        <div class="image-pair-item" onclick="openTooltip('3DDesign/3d4.jpg', 'Wine Glasses')">
+                            <div class="img-frame"><img src="3DDesign/3d4.jpg" alt="Wine Glasses"></div>
+                            <p class="item-label">Wine Glasses</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d4.jpg', 'Wine Glasses')">
-                    <div class="img-frame"><img src="3DDesign/3d4.jpg" alt="Wine Glasses"></div>
-                    <p class="item-label">Wine Glasses</p>
-                </div>
-            </div>
 
-            <div class="model-section">
-                <div class="model-container">
-                    <model-viewer src="titan.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                <div class="portfolio-item">
+                    <div class="model-container">
+                        <model-viewer src="titan.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    </div>
+                    <p class="item-label">OceanGate Titan Submersible</p>
                 </div>
-                <p class="item-label">OceanGate Titan Submersible</p>
-            </div>
 
-            <div class="large-image-item" onclick="openTooltip('3DDesign/3d3.jpg', 'OceanGate Titan Submersible')">
-                <div class="large-img-frame">
-                    <img src="3DDesign/3d3.jpg" alt="OceanGate Titan Submersible">
+                <div class="portfolio-item">
+                    <div class="large-image-item" onclick="openTooltip('3DDesign/3d3.jpg', 'OceanGate Titan Submersible')">
+                        <div class="large-img-frame">
+                            <img src="3DDesign/3d3.jpg" alt="OceanGate Titan Submersible">
+                        </div>
+                        <p class="item-label">OceanGate Titan Submersible (Rendered)</p>
+                    </div>
                 </div>
-                <p class="item-label">OceanGate Titan Submersible (Rendered)</p>
-            </div>
 
-            <div class="model-section">
-                <div class="model-container">
-                    <model-viewer src="3DFiles/trix.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                <div class="portfolio-item">
+                    <div class="model-container">
+                        <model-viewer src="3DFiles/trix.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    </div>
+                    <p class="item-label">Triceratops</p>
                 </div>
-                <p class="item-label">Triceratops</p>
-            </div>
 
-            <div class="image-row">
-                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d7.jpg', 'Outdoor Dining')">
-                    <div class="img-frame"><img src="3DDesign/3d7.jpg" alt="Outdoor Dining"></div>
-                    <p class="item-label">Outdoor Dining</p>
+                <div class="portfolio-item">
+                    <div class="image-row">
+                        <div class="image-pair-item" onclick="openTooltip('3DDesign/3d7.jpg', 'Outdoor Dining')">
+                            <div class="img-frame"><img src="3DDesign/3d7.jpg" alt="Outdoor Dining"></div>
+                            <p class="item-label">Outdoor Dining</p>
+                        </div>
+                        <div class="image-pair-item" onclick="openTooltip('3DDesign/3d8.jpg', 'Colourless Kitchen')">
+                            <div class="img-frame"><img src="3DDesign/3d8.jpg" alt="Colourless Kitchen"></div>
+                            <p class="item-label">Colourless Kitchen</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d8.jpg', 'Colourless Kitchen')">
-                    <div class="img-frame"><img src="3DDesign/3d8.jpg" alt="Colourless Kitchen"></div>
-                    <p class="item-label">Colourless Kitchen</p>
+                
+                <div class="portfolio-item">
+                    <div class="model-container">
+                        <model-viewer src="3DFiles/brac.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+                    </div>
+                    <p class="item-label">Sauropod</p>
                 </div>
-            </div>
-            
-            <div class="model-section">
-                <div class="model-container">
-                    <model-viewer src="3DFiles/brac.glb" alt="3D Model" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
-                </div>
-                <p class="item-label">Sauropod</p>
-            </div>
 
-            <div class="image-row">
-                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d5.png', 'Vehicle Design: Batpod')">
-                    <div class="img-frame"><img src="3DDesign/3d5.png" alt="Batpod"></div>
-                    <p class="item-label">Vehicle Design: Batpod</p>
+                <div class="portfolio-item">
+                    <div class="image-row">
+                        <div class="image-pair-item" onclick="openTooltip('3DDesign/3d5.png', 'Vehicle Design: Batpod')">
+                            <div class="img-frame"><img src="3DDesign/3d5.png" alt="Batpod"></div>
+                            <p class="item-label">Vehicle Design: Batpod</p>
+                        </div>
+                        <div class="image-pair-item" onclick="openTooltip('3DDesign/3d11.jpg', 'XLR8 in a Basketball Court')">
+                            <div class="img-frame"><img src="3DDesign/3d11.jpg" alt="XLR8"></div>
+                            <p class="item-label">XLR8 Basketball Court</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="image-pair-item" onclick="openTooltip('3DDesign/3d11.jpg', 'XLR8 in a Basketball Court')">
-                    <div class="img-frame"><img src="3DDesign/3d11.jpg" alt="XLR8"></div>
-                    <p class="item-label">XLR8 Basketball Court</p>
-                </div>
-            </div>
 
-        </div>
+            </div> </div>
     </main>
 
     <div id="overlay" class="overlay" onclick="closeTooltip()">

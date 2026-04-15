@@ -220,7 +220,7 @@
 
             .gif-card {
                 width: 100%;
-                margin-bottom: 30px;
+                margin-bottom: 10px;
             }
 
             main { padding-top: 130px; }
@@ -318,7 +318,6 @@
         let angler = { x: -200, y: -200, targetX: -200, targetY: -200, flipped: false, angle: 0 };
         
         window.addEventListener('click', (e) => {
-            // Subtle Fix: Check if overlay exists before accessing style
             const overlay = document.getElementById('overlay');
             const isOverlayVisible = overlay && (overlay.style.display !== 'none' && overlay.style.display !== '');
             
@@ -439,7 +438,6 @@
                 const aspectRatio = fishImg.naturalHeight / fishImg.naturalWidth;
                 const h = this.width * aspectRatio;
                 ctx.save();
-                ctx.globalAlpha = 1.0; // Reset alpha for main boids
                 ctx.translate(this.x, this.y);
                 let angle = Math.atan2(this.vy, this.vx);
                 ctx.rotate(angle);

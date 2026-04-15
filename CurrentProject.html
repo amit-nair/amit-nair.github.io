@@ -49,6 +49,9 @@
             z-index: 1000;
             box-sizing: border-box;
             pointer-events: auto;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         .header-left {
@@ -64,12 +67,17 @@
             text-decoration: none;
         }
 
+        .header-left a:hover {
+            opacity: 0.8;
+        }
+
         .profile-img {
             width: 60px;
             height: 60px;
             border-radius: 50%;
             object-fit: cover;
             border: 1px solid #ddd;
+            cursor: pointer;
         }
 
         .name-container {
@@ -100,6 +108,10 @@
             font-size: 1.3em;
             text-decoration: none;
             transition: color 0.3s ease;
+        }
+
+        .header-right a:hover {
+            color: #888;
         }
 
         /* --- Updated Layout Styles for Proper Proportions --- */

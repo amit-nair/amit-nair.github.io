@@ -102,7 +102,7 @@
             transition: color 0.3s ease;
         }
 
-        /* --- New Layout Styles --- */
+        /* --- Layout Styles --- */
         main {
             padding: 160px 5% 100px 5%;
             position: relative;
@@ -131,7 +131,8 @@
         .content-wrapper {
             display: flex;
             gap: 40px;
-            align-items: flex-start;
+            /* Ensures Vertical Alignment between text and visuals */
+            align-items: center; 
         }
 
         .visual-section {
@@ -147,18 +148,22 @@
         }
 
         .gif-card img {
-            width: 85%;
+            width: 100%; /* Changed to 100% for better alignment control */
+            max-width: 250px; /* Adjust as needed */
+            margin: 0 auto 10px auto;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             background: #f9f9f9;
             display: block;
-            margin-bottom: 10px;
+            
+            /* CROPPING LOGIC: Adjust aspect-ratio to match your preferred GIF shape (e.g., 1/1 for square, 16/9 for wide) */
+            aspect-ratio: 1 / 1; 
+            object-fit: cover; /* This "subtly crops" the image to fill the square */
         }
 
         .gif-label {
             font-size: 0.85em;
             font-weight: 500;
-            /*text-transform: uppercase;*/
             letter-spacing: 0.1em;
             color: #666;
         }
@@ -189,18 +194,20 @@
         @media (max-width: 900px) {
             .content-wrapper {
                 flex-direction: column;
+                align-items: center;
             }
 
             .text-section {
-                order: 1; /* Move text to top */
+                order: 1;
                 width: 100%;
                 box-sizing: border-box;
             }
 
             .visual-section {
-                order: 2; /* Move visuals to bottom */
+                order: 2;
                 flex-direction: column;
                 width: 100%;
+                align-items: center;
             }
 
             .gif-card {
@@ -241,17 +248,14 @@
         <div class="content-wrapper">
             <div class="visual-section">
                 <div class="gif-card">
-                    <img src="CurrentProject/cp4.gif" alt="How Do Animals Move In Groups">
-                    <!--span class="gif-label">Exploration</span-->
-                </div>
-                <!--div class="gif-card">
-                    <img src="CurrentProject/cp2.gif" alt="Evaluation">
-                    <span class="gif-label">Evaluation</span>
+                    <img src="CurrentProject/cp1.jpg" alt="Evaluation">
                 </div>
                 <div class="gif-card">
-                    <img src="CurrentProject/cp3.gif" alt="Tutor Interaction">
-                    <span class="gif-label">Tutor Interaction</span>
-            </div-->
+                    <img src="CurrentProject/cp2.jpg" alt="Exploration">
+                </div>
+                <div class="gif-card">
+                    <img src="CurrentProject/cp3.jpg" alt="Hidden System">
+                </div>
             </div>
 
             <div class="text-section">

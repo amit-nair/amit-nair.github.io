@@ -105,7 +105,6 @@
             color: #888;
         }
 
-        /* Side Navigation */
         .side-navigation {
             position: fixed;
             left: 5%;
@@ -135,12 +134,10 @@
         .content-section {
             height: 100vh;
             height: 100dvh;
-            /* Dynamic viewport height for mobile browsers */
             display: flex;
             justify-content: center;
             align-items: center;
             scroll-snap-align: center;
-            /* Changed to center for better mobile alignment */
             scroll-snap-stop: always;
             position: relative;
             box-sizing: border-box;
@@ -280,7 +277,7 @@
 
         .illustration-container {
             width: 100%;
-            max-width: 900px; /* Optional: limits how wide it gets on massive monitors */
+            max-width: 900px;
             margin: 20px auto;
             display: flex;
             justify-content: center;
@@ -291,12 +288,11 @@
             width: auto;
             max-width: 100%;
             height: auto;
-            /* Match the 3D viewer/Video height constraints */
             min-height: 300px; 
             max-height: 50vh; 
             
             border-radius: 15px;
-            object-fit: contain; /* Ensures the whole image fits without cropping */
+            object-fit: contain;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
@@ -357,7 +353,6 @@
             }
         }
         
-        /* On mobile, center the text for a cleaner look if preferred */
         @media (max-width: 768px) {
             .publication-item {
                 text-align: center;
@@ -466,9 +461,9 @@
                 <p class="current-project-label">CURRENT PROJECT</p>
                 <h2>HOW DO ANIMALS MOVE IN GROUPS</h2>
                 <p class="collaborators">Working under: Dr. Tomohiro Nagashima & Dr. Man Su</p>
-                <!--a href="#" target="_blank" class="project-button">
+                <a href="CurrentProject.html" class="project-button">
                     <i class="fas fa-dog" style="margin-right: 10px;"></i> MORE
-            </a-->
+                </a>
             </div>
         </section>
 

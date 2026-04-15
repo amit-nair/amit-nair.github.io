@@ -237,8 +237,16 @@
             }
 
             main { padding-top: 130px; }
-            .page-title { font-size: 2em; }
-        }
+                .page-title { font-size: 2em; }
+            }
+
+            @media (min-width: 901px) {
+                body {
+                    overflow: hidden;
+                    height: 100vh;
+                }
+            }
+        
     </style>
 </head>
 
@@ -269,15 +277,15 @@
         <div class="content-wrapper">
             <div class="visual-section">
                 <div class="gif-card">
-                    <img src="CurrentProject/cp1.jpg" alt="Evaluation">
+                    <img src="CurrentProject/cp1.jpg" alt="Evaluation draggable="false"">
                     <p style="opacity: 0.8;">Evaluation</p>
                 </div>
                 <div class="gif-card">
-                    <img src="CurrentProject/cp2.jpg" alt="Tutor Interaction">
+                    <img src="CurrentProject/cp2.jpg" alt="Tutor Interaction" draggable="false">
                     <p style="opacity: 0.8;"> Tutor Interaction</p>
                 </div>
                 <div class="gif-card">
-                    <img src="CurrentProject/cp3.jpg" alt="Exploration">
+                    <img src="CurrentProject/cp3.jpg" alt="Exploration" draggable="false">
                     <p style="opacity: 0.8;">Exploration</p>
                 </div>
             </div>

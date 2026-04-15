@@ -102,11 +102,12 @@
             transition: color 0.3s ease;
         }
 
+        /* --- Updated Layout Styles for Proper Proportions --- */
         main {
             padding: 160px 5% 100px 5%;
             position: relative;
             z-index: 10;
-            max-width: 1600px; 
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -130,31 +131,34 @@
         .content-wrapper {
             display: flex;
             gap: 40px;
+            /* 2. Vertical alignment for entire content section */
             align-items: center; 
         }
 
         .visual-section {
-            flex: 0 0 auto; 
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             gap: 20px;
+            /* FLEX CONTROL: Allow images to dictate size, prevent stretching */
+            flex: 0 1 auto; 
         }
 
         .gif-card {
-            width: 200px; 
+            flex: 0 1 auto; /* Prevents cards from growing/shrinking unevenly */
             text-align: center;
         }
 
         .gif-card img {
-            width: 100%;
+            max-width: 250px; /* Optional cap, but width is fluid */
             height: auto;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             background: #f9f9f9;
             display: block;
-            margin-bottom: 10px;
+            margin: 0 auto 10px auto;
             
-            object-fit: contain; 
+            aspect-ratio: auto; 
+            object-fit: cover; 
         }
 
         .gif-label {
@@ -165,7 +169,8 @@
         }
 
         .text-section {
-            flex: 1; 
+            flex: 1 1 auto; 
+            min-width: 300px;
             background: rgba(255, 255, 255, 0.8);
             padding: 30px;
             border-radius: 15px;
@@ -194,23 +199,21 @@
             }
 
             .text-section {
-                order: 1;
+                order: 1; 
                 width: 100%;
                 box-sizing: border-box;
             }
 
             .visual-section {
-                order: 2;
+                order: 2; 
                 flex-direction: column;
                 width: 100%;
                 align-items: center;
-                gap: 30px;
             }
 
             .gif-card {
                 width: 100%;
-                max-width: 450px;
-                margin-bottom: 0;
+                margin-bottom: 30px;
             }
 
             main { padding-top: 130px; }
@@ -266,6 +269,7 @@
     </main>
 
     <script>
+        /* --- Original Boid Logic (Untouched and Preserved) --- */
         const canvas = document.getElementById('boidCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -305,6 +309,7 @@
         window.addEventListener('resize', resize);
         resize();
 
+        /* Click Logic Preserved: Header/Main exclusion */
         let angler = { x: -200, y: -200, targetX: -200, targetY: -200, flipped: false, angle: 0 };
         window.addEventListener('click', (e) => {
             if (!e.target.closest('header') && !e.target.closest('main')) {
@@ -492,7 +497,7 @@
                 ctx.drawImage(anglerImg, -anglerW / 2, -anglerH / 2, anglerW, anglerH);
                 ctx.restore();
             }
-            ctx.globalAlpha = 0.6; 
+            ctx.globalAlpha = 0.6; 
             requestAnimationFrame(loop);
         }
         loop();

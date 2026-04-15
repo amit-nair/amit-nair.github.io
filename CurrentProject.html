@@ -494,6 +494,7 @@
                 ctx.drawImage(anglerImg, -anglerW / 2, -anglerH / 2, anglerW, anglerH);
                 ctx.restore();
             }
+            ctx.globalAlpha = 0.6; 
             requestAnimationFrame(loop);
         }
         loop();

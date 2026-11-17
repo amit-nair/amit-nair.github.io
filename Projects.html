@@ -162,18 +162,22 @@
         /* 1. Large Hero Window (Video or Image) */
         .hero-media {
             width: 100%;
-            aspect-ratio: 16 / 9;
+            position: relative;
+            padding-bottom: 56.25%; /* Exact 16:9 ratio that never collapses on mobile */
+            height: 0;
             border-radius: 15px;
             overflow: hidden;
             background: rgba(0, 0, 0, 0.03);
             border: 1px solid rgba(0, 0, 0, 0.06);
             margin-bottom: 28px;
-            position: relative;
         }
-
+        
         .hero-media img,
         .hero-media video,
         .hero-media iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -382,7 +386,7 @@
                         <h3 class="project-title">How Do Animals Move In Groups (GenAI + Firebase + C#)</h3>
                         <p class="project-desc">
                             This project explores the design and evaluation of an immersive open-world, simulation-based learning environment for teaching complex systems concepts, such as emergent behavior and non-linearity. The system was iteratively refined through collaboration with domain experts in Saarland, under the supervision of Prof. Dr. Tomohiro Nagashima and Dr. Man Su, and integrates the PAIR-C framework for structured learning. 
-                            <a href="https://drive.google.com/drive/u/3/folders/1ypIMpKqUITE7_hvchAGAs-OmfULsi_pq" target="_blank" rel="noopener noreferrer" style="color: #000; text-decoration-thickness: 2px; font-weight: 500; margin-left: 4px; text-decoration: none">Download and Try</a>
+                            <a href="https://drive.google.com/drive/u/3/folders/1ypIMpKqUITE7_hvchAGAs-OmfULsi_pq" target="_blank" rel="noopener noreferrer" style="color: #000; text-decoration-thickness: 2px; font-weight: 500; margin-left: 4px; text-decoration: none">Download</a>
                         </p>
                     </div>
 

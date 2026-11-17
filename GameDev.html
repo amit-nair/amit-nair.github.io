@@ -4,15 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amit Nair | Game Development</title>
+    <title>Amit Nair | Projects</title>
     <link rel="icon" type="image/png" href="angler-icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@100..900&display=swap" rel="stylesheet">
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <style>
-        /* --- Original HTML/Body Logic --- */
         html {
             scroll-behavior: smooth;
         }
@@ -29,7 +27,6 @@
             user-select: none;
         }
 
-        /* --- Original Background Canvas Logic --- */
         #boidCanvas {
             position: fixed;
             top: 0;
@@ -40,7 +37,6 @@
             pointer-events: none;
         }
 
-        /* --- Original Header Styles --- */
         header {
             position: fixed;
             top: 40px;
@@ -114,89 +110,186 @@
             color: #888;
         }
 
-        h2 {
-            font-size: 2.8em;
-            letter-spacing: 0.15em;
-            font-weight: 400;
-            margin-bottom: 20px;
-            color: #000;
-            text-align: center;
-            margin-top: 0;
-        }
-
         main {
-            padding: 160px 5% 100px 5%;
+            padding: 180px 5% 120px 5%;
             position: relative;
             z-index: 10;
         }
 
-        .collage-container {
-            max-width: 1200px;
+        h2 {
+            font-size: 2.8em;
+            letter-spacing: 0.15em;
+            font-weight: 400;
+            margin: 0 0 10px 0;
+            color: #000;
+            text-align: center;
+        }
+
+        .collaborators {
+            font-size: 0.9em;
+            opacity: 0.7;
+            margin-bottom: 70px;
+            color: #444;
+            text-align: center;
+        }
+
+        .work-container {
+            max-width: 1100px;
             margin: 0 auto;
         }
 
-        .collage-grid {
-            column-count: 3;
-            column-gap: 20px;
+        /* Project Showcase Layout */
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 110px;
+        }
+
+        .project-section {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            padding-bottom: 80px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .project-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        /* 1. Large Hero Window (Video or Image) */
+        .hero-media {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 15px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .hero-media img,
+        .hero-media video,
+        .hero-media iframe {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border: none;
+        }
+
+        .hero-media.clickable {
+            cursor: pointer;
+        }
+
+        /* 2. Project Title & Primary Description */
+        .project-header {
+            margin-bottom: 30px;
+        }
+
+        .project-title {
+            font-size: 1.7em;
+            font-weight: 450;
+            letter-spacing: 0.08em;
+            margin: 0 0 12px 0;
+            color: #000;
+        }
+
+        .project-desc {
+            font-size: 1.05em;
+            line-height: 1.7;
+            font-weight: 330;
+            color: #333;
+            margin: 0;
+            max-width: 850px;
+            -webkit-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        /* 3. Secondary Image Row (2 or 3 images) */
+        .sub-images-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
             width: 100%;
         }
 
-        .art-item {
-            display: inline-block;
+        .sub-images-grid.two-cols {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .sub-img-frame {
             width: 100%;
-            margin-bottom: 20px;
-            break-inside: avoid;
-            cursor: pointer;
+            aspect-ratio: 16 / 10;
             border-radius: 12px;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            background: rgba(0,0,0,0.03);
-            border: 1px solid rgba(0,0,0,0.05);
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
 
-        .art-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        .sub-img-frame:hover {
+            transform: translateY(-4px);
         }
 
-        .art-item img {
+        .sub-img-frame img {
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: cover;
             display: block;
-            border-radius: 12px;
         }
 
+        /* 4. Secondary / Technical Description Below Gallery */
+        .project-sub-desc {
+            font-size: 0.98em;
+            line-height: 1.7;
+            font-weight: 330;
+            color: #444;
+            margin: 0;
+            max-width: 850px;
+            -webkit-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        /* Lightbox Modal */
         .overlay {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.4); /* Transparent Base */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.4);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 2000;
-            backdrop-filter: blur(20px); /* Frosted Glass Effect */
+            backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             opacity: 0;
             transition: opacity 0.3s ease;
-            padding: 0; /* No padding on overlay for tight look */
             box-sizing: border-box;
         }
 
         .tooltip-card {
-            background: rgba(255, 255, 255, 0.1); /* Very transparent card panel */
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            max-width: 800px;
-            width: 95%; /* Small margin on desktop */
+            max-width: 900px;
+            width: 95%;
             display: flex;
             flex-direction: column;
-            max-height: 95vh; /* Almost full height */
+            max-height: 95vh;
             position: relative;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
             transform: translateY(20px);
             transition: transform 0.3s ease;
-            overflow: hidden; 
-            border: 1px solid rgba(255, 255, 255, 0.2); /* Glass border */
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .tooltip-img-container {
@@ -204,96 +297,49 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* YELLOW BASE REMOVED */
             overflow: hidden;
-            min-height: 0; 
-            padding: 0; /* Minimal padding around image */
+            min-height: 0;
         }
 
         .tooltip-img {
             max-width: 100%;
-            max-height: 70vh; /* Allow image to be tall */
+            max-height: 75vh;
             object-fit: contain;
             display: block;
         }
 
         .tooltip-text {
-            /* Text has a solid white base card and comfortable padding */
-            padding: 25px 30px; 
+            padding: 25px 30px;
             font-size: 1.05em;
             line-height: 1.5;
             color: #333;
             font-weight: 300;
             margin: 0;
-            background: #ffffff; /* Solid White Base for Text */
-            overflow-y: auto; 
-            border-top: 1px solid rgba(0,0,0,0.05); /* Subtle separation */
-        }
-
-        .close-btn {
-            position: fixed;
-            top: 25px;
-            right: 25px;
-            font-size: 2.5em;
-            cursor: pointer;
-            z-index: 2100;
-            color: #000;
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
-        }
-        
-        .close-btn:hover {
-            opacity: 1;
-        }
-
-        /* --- Mobile Responsiveness Logic --- */
-        @media (max-width: 900px) {
-            .collage-grid { column-count: 2; }
+            background: #ffffff;
+            overflow-y: auto;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         @media (max-width: 768px) {
-            header { top: 20px; }
-            .header-left h1 { font-size: 1.2em; }
-            .header-left p { font-size: 0.7em; }
-            .profile-img { width: 50px; height: 50px; }
-            h2 { font-size: 2.2em; }
-        }
-
-        @media (max-width: 600px) {
-            .collage-grid { column-count: 1; }
-            main { padding-top: 130px; }
-            
-            .overlay { align-items: center; } /* Keep centered */
-            
-            .tooltip-card {
-                border-radius: 12px; /* Small radius on mobile */
-                height: auto;
-                max-height: 90vh;
-                width: 90%; /* Tight but not edge-to-edge */
-                transform: translateY(0);
+            .sub-images-grid,
+            .sub-images-grid.two-cols {
+                grid-template-columns: 1fr;
+                gap: 15px;
             }
-
-            .tooltip-img {
-                max-height: 60vh; /* Leave room for text */
+            .header-left h1 {
+                font-size: 1.2em;
             }
-
-            .tooltip-text {
-                padding: 20px;
-                font-size: 1em;
-            }
-
-            .close-btn {
-                top: 15px;
-                right: 20px;
+            h2 {
                 font-size: 2.2em;
-                background: rgba(255,255,255,0.7); /* Blend with glass */
-                width: 40px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                backdrop-filter: blur(5px);
+            }
+            .project-title {
+                font-size: 1.4em;
+            }
+            main {
+                padding-top: 140px;
+            }
+            .projects-list {
+                gap: 70px;
             }
         }
     </style>
@@ -306,7 +352,7 @@
     <header>
         <div class="header-left">
             <a href="https://amit-nair.github.io">
-                <img src="https://tomonag.org/wp-content/uploads/2024/09/amit_round.png" alt="Amit Nair" class="profile-img">
+                <img src="https://lala.cs.uni-saarland.de/wp-content/uploads/2026/06/amit_round-768x768.png" alt="Amit Nair" class="profile-img">
             </a>
             <div class="name-container">
                 <h1>AMIT NAIR</h1>
@@ -320,28 +366,85 @@
     </header>
 
     <main>
-        <div class="collage-container">
-            <h2>Game Development</h2>
+        <div class="work-container">
+            <h2>Projects</h2>
+            <p class="collaborators">Created in Unity and JavaScript</p>
 
-            <div class="collage-grid">
-                <div class="art-item" onclick="openTooltip('GameDev/gd1.gif', 'Railway Disruption')">
-                    <img src="GameDev/gd1.gif" alt="Artwork 1">
-                </div>
-                
-                <div class="art-item" onclick="openTooltip('GameDev/gd2.gif', 'Young Caiman')">
-                    <img src="GameDev/gd2.gif" alt="Artwork 2">
-                </div>
+            <div class="projects-list">
 
-                <div class="art-item" onclick="openTooltip('GameDev/gd3.gif', 'Film Trivia Infographic')">
-                    <img src="GameDev/gd3.gif" alt="Artwork 3">
-                </div>
-  
+                <!-- PROJECT 1: Example with Autoplay Looping Video + 3 Images -->
+                <article class="project-section">
+                    <!-- Large Hero Window (Video) -->
+                    <div class="hero-media">
+                        <video autoplay loop muted playsinline poster="Projects/proj1-poster.jpg">
+                            <source src="Projects/proj1-demo.mp4" type="video/mp4">
+                        </video>
+                    </div>
+
+                    <!-- Title & First Description -->
+                    <div class="project-header">
+                        <h3 class="project-title">Project Title One</h3>
+                        <p class="project-desc">
+                            An interactive simulation exploring procedural environments and real-time physics interactions. Built from scratch to study emergent behavior and responsive user input.
+                        </p>
+                    </div>
+
+                    <!-- Three Supporting Images -->
+                    <div class="sub-images-grid">
+                        <div class="sub-img-frame" onclick="openTooltip('Projects/proj1-sub1.jpg', 'Project Title One — Environment Architecture')">
+                            <img src="Projects/proj1-sub1.jpg" alt="Screenshot 1">
+                        </div>
+                        <div class="sub-img-frame" onclick="openTooltip('Projects/proj1-sub2.jpg', 'Project Title One — Shader & Lighting Setup')">
+                            <img src="Projects/proj1-sub2.jpg" alt="Screenshot 2">
+                        </div>
+                        <div class="sub-img-frame" onclick="openTooltip('Projects/proj1-sub3.jpg', 'Project Title One — UI & Telemetry Overlay')">
+                            <img src="Projects/proj1-sub3.jpg" alt="Screenshot 3">
+                        </div>
+                    </div>
+
+                    <!-- Second Description Below Images -->
+                    <p class="project-sub-desc">
+                        Implemented custom spatial partitioning in C# within Unity to maintain 60 FPS across thousands of active entities, paired with custom post-processing shaders for depth perception.
+                    </p>
+                </article>
+
+                <!-- PROJECT 2: Example with Large Image + 2 Images -->
+                <article class="project-section">
+                    <!-- Large Hero Window (Clickable Image) -->
+                    <div class="hero-media clickable" onclick="openTooltip('Projects/proj2-hero.jpg', 'Project Title Two — Overview')">
+                        <img src="Projects/proj2-hero.jpg" alt="Project Two Hero">
+                    </div>
+
+                    <!-- Title & First Description -->
+                    <div class="project-header">
+                        <h3 class="project-title">Project Title Two</h3>
+                        <p class="project-desc">
+                            A browser-based generative visualization and algorithmic sandbox created using HTML5 Canvas and vanilla JavaScript. Users can manipulate parameters in real time to observe organic pattern formation.
+                        </p>
+                    </div>
+
+                    <!-- Two Supporting Images (using .two-cols class) -->
+                    <div class="sub-images-grid two-cols">
+                        <div class="sub-img-frame" onclick="openTooltip('Projects/proj2-sub1.jpg', 'Project Title Two — Particle Field State')">
+                            <img src="Projects/proj2-sub1.jpg" alt="Screenshot 1">
+                        </div>
+                        <div class="sub-img-frame" onclick="openTooltip('Projects/proj2-sub2.jpg', 'Project Title Two — Control Interface')">
+                            <img src="Projects/proj2-sub2.jpg" alt="Screenshot 2">
+                        </div>
+                    </div>
+
+                    <!-- Second Description Below Images -->
+                    <p class="project-sub-desc">
+                        Designed with zero external dependencies, utilizing vector math, steering behaviors, and dynamic frame-rate scaling for smooth cross-device performance.
+                    </p>
+                </article>
+
             </div>
         </div>
     </main>
 
+    <!-- Lightbox Overlay for Enlarging Images -->
     <div id="overlay" class="overlay" onclick="closeTooltip()">
-        <!--span class="close-btn" onclick="closeTooltip()">&times;</span-->
         <div class="tooltip-card" onclick="event.stopPropagation()">
             <div class="tooltip-img-container">
                 <img id="modalImg" class="tooltip-img" src="" alt="Full View Artwork">
@@ -351,17 +454,16 @@
     </div>
 
     <script>
-        /* --- Tooltip Functionality --- */
         function openTooltip(imgSrc, description) {
             document.getElementById('modalImg').src = imgSrc;
             document.getElementById('tip-desc').innerText = description;
             const overlay = document.getElementById('overlay');
             overlay.style.display = 'flex';
-            setTimeout(() => { 
-                overlay.style.opacity = '1'; 
+            setTimeout(() => {
+                overlay.style.opacity = '1';
                 document.querySelector('.tooltip-card').style.transform = 'translateY(0)';
             }, 10);
-            document.body.style.overflow = 'hidden'; 
+            document.body.style.overflow = 'hidden';
         }
 
         function closeTooltip() {
@@ -370,17 +472,16 @@
             overlay.style.opacity = '0';
             card.style.transform = 'translateY(20px)';
             setTimeout(() => { overlay.style.display = 'none'; }, 300);
-            document.body.style.overflow = 'auto'; 
+            document.body.style.overflow = 'auto';
         }
 
         document.addEventListener('keydown', (e) => {
             if (e.key === "Escape") closeTooltip();
         });
 
-        /* --- Original Boid Logic (Exact) --- */
+        /* Boid & Aquatic Background Simulation (Unchanged) */
         const canvas = document.getElementById('boidCanvas');
         const ctx = canvas.getContext('2d');
-
         let width, height;
         const fishImg = new Image(); fishImg.src = 'fish.png';
         const anglerImg = new Image(); anglerImg.src = 'angler.png';
@@ -389,15 +490,7 @@
         const animalPool = [
             { name: "Jellyfish", weight: 50, img: placeholderJelly },
             { name: "Octopus", weight: 5, img: placeholderJelly },
-            { name: "Shark", weight: 5, img: placeholderJelly },
-            { name: "Isopod", weight: 5, img: placeholderJelly },
-            { name: "Squid", weight: 5, img: placeholderJelly },
-            { name: "Nautilus", weight: 5, img: placeholderJelly },
-            { name: "Sea Lilly", weight: 5, img: placeholderJelly },
-            { name: "Crab", weight: 5, img: placeholderJelly },
-            { name: "Submarine", weight: 5, img: placeholderJelly },
-            { name: "Gulper Eel", weight: 5, img: placeholderJelly },
-            { name: "Seadragon", weight: 5, img: placeholderJelly }
+            { name: "Shark", weight: 5, img: placeholderJelly }
         ];
 
         function getRandomAnimal() {
@@ -464,8 +557,6 @@
                 let avoid = this.avoidAngler();
                 this.accX += sep.x * 1.5 + ali.x * 1.0 + coh.x * 1.0 + avoid.x * 4.0;
                 this.accY += sep.y * 1.5 + ali.y * 1.0 + coh.y * 1.0 + avoid.y * 4.0;
-                this.accX += Math.cos(Date.now() * 0.001 + this.x) * 0.02;
-                this.accY += Math.sin(Date.now() * 0.001 + this.y) * 0.02;
             }
 
             avoidAngler() {
@@ -587,10 +678,8 @@
             angler.y += dy * 0.02;
             angler.flipped = dx < 0;
             angler.angle = Math.atan2(dy, dx);
-
             ambientAnimals.forEach(a => { a.update(); a.draw(); });
             boids.forEach(b => { b.applyBehaviors(boids); b.update(); b.draw(); });
-
             if (anglerImg.complete) {
                 const anglerAspect = anglerImg.naturalHeight / anglerImg.naturalWidth;
                 const anglerW = 80;
@@ -606,7 +695,7 @@
                 ctx.drawImage(anglerImg, -anglerW / 2, -anglerH / 2, anglerW, anglerH);
                 ctx.restore();
             }
-            ctx.globalAlpha = 0.6; 
+            ctx.globalAlpha = 0.6;
             requestAnimationFrame(loop);
         }
         loop();

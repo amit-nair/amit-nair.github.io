@@ -368,20 +368,17 @@
     <main>
         <div class="work-container">
             <h2>Projects</h2>
-            <p class="collaborators">Created in Unity and JavaScript</p>
+            <p class="collaborators">Created in C# and JavaScript</p>
 
             <div class="projects-list">
 
-                <!-- PROJECT 1: Example with Autoplay Looping Video + 3 Images -->
                 <article class="project-section">
-                    <!-- Large Hero Window (Video) -->
                     <div class="hero-media">
                         <video autoplay loop muted playsinline poster="Projects/proj1-poster.jpg">
                             <source src="Projects/proj1-demo.mp4" type="video/mp4">
                         </video>
                     </div>
 
-                    <!-- Title & First Description -->
                     <div class="project-header">
                         <h3 class="project-title">Project Title One</h3>
                         <p class="project-desc">
@@ -389,7 +386,6 @@
                         </p>
                     </div>
 
-                    <!-- Three Supporting Images -->
                     <div class="sub-images-grid">
                         <div class="sub-img-frame" onclick="openTooltip('Projects/proj1-sub1.jpg', 'Project Title One — Environment Architecture')">
                             <img src="Projects/proj1-sub1.jpg" alt="Screenshot 1">
@@ -402,20 +398,16 @@
                         </div>
                     </div>
 
-                    <!-- Second Description Below Images -->
                     <p class="project-sub-desc">
                         Implemented custom spatial partitioning in C# within Unity to maintain 60 FPS across thousands of active entities, paired with custom post-processing shaders for depth perception.
                     </p>
                 </article>
 
-                <!-- PROJECT 2: Example with Large Image + 2 Images -->
                 <article class="project-section">
-                    <!-- Large Hero Window (Clickable Image) -->
                     <div class="hero-media clickable" onclick="openTooltip('Projects/proj2-hero.jpg', 'Project Title Two — Overview')">
                         <img src="Projects/proj2-hero.jpg" alt="Project Two Hero">
                     </div>
 
-                    <!-- Title & First Description -->
                     <div class="project-header">
                         <h3 class="project-title">Project Title Two</h3>
                         <p class="project-desc">
@@ -423,7 +415,6 @@
                         </p>
                     </div>
 
-                    <!-- Two Supporting Images (using .two-cols class) -->
                     <div class="sub-images-grid two-cols">
                         <div class="sub-img-frame" onclick="openTooltip('Projects/proj2-sub1.jpg', 'Project Title Two — Particle Field State')">
                             <img src="Projects/proj2-sub1.jpg" alt="Screenshot 1">
@@ -433,7 +424,6 @@
                         </div>
                     </div>
 
-                    <!-- Second Description Below Images -->
                     <p class="project-sub-desc">
                         Designed with zero external dependencies, utilizing vector math, steering behaviors, and dynamic frame-rate scaling for smooth cross-device performance.
                     </p>
@@ -443,7 +433,6 @@
         </div>
     </main>
 
-    <!-- Lightbox Overlay for Enlarging Images -->
     <div id="overlay" class="overlay" onclick="closeTooltip()">
         <div class="tooltip-card" onclick="event.stopPropagation()">
             <div class="tooltip-img-container">

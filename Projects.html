@@ -159,30 +159,43 @@
             padding-bottom: 0;
         }
 
-        /* 1. Large Hero Window (Video or Image) */
         .hero-media {
             width: 100%;
+            aspect-ratio: 16 / 9;
             position: relative;
-            padding-bottom: 56.25%; /* Exact 16:9 ratio that never collapses on mobile */
-            height: 0;
             border-radius: 15px;
             overflow: hidden;
-            background: rgba(0, 0, 0, 0.03);
+            background: #000; /* Clean black background if Drive letterboxes */
             border: 1px solid rgba(0, 0, 0, 0.06);
             margin-bottom: 28px;
         }
         
         .hero-media img,
-        .hero-media video,
+        .hero-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
         .hero-media iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            display: block;
             border: none;
+            display: block;
+        }
+        
+        /* Mobile fix for Google Drive's oversized player UI */
+        @media (max-width: 600px) {
+            .hero-media iframe {
+                width: 125%;
+                height: 125%;
+                transform: scale(0.8);
+                transform-origin: top left;
+            }
         }
 
         .hero-media.clickable {
@@ -490,7 +503,7 @@
                  <article class="project-section">
                     <div class="hero-media">
                         <iframe 
-                            src="https://drive.google.com/file/d/1UXq3AQv5EhYpMx7jogLfZ82eL0dswwD2/preview" 
+                            src="https://drive.google.com/file/d/1AC4dakcewwnLa9eXJvgj5pTnyNt1tHId/preview" 
                             allow="autoplay; fullscreen" 
                             allowfullscreen>
                         </iframe>
@@ -499,7 +512,7 @@
                     <div class="project-header">
                         <h3 class="project-title">Crocobraille Braille Training Device (Hardware + C++) </h3>
                         <p class="project-desc">
-                            A concept hardware learning tool for teaching Braille. It displays one letter at a time using solenoids, and functions alongside a companion application that controls the device. This project was developed for an Interactive Systems course in 2025 at Saarland University.
+                            A concept hardware learning tool for teaching Braille. It displays one letter at a time using solenoids and functions alongside a companion application that controls the device. This project was developed for an Interactive Systems course in 2025 at Saarland University.
                         </p>
                     </div>
                 </article>
